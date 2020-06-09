@@ -1,0 +1,32 @@
+
+#
+# wm independent hotkeys
+#
+
+# terminal emulator
+super + shift + @Delete
+    xsecurelock
+
+@Print
+    maim -u ~/screenshot.png
+
+super + @Print
+    maim -su ~/screenshot.png
+
+XF86AudioRaiseVolume
+    pactl set-sink-volume 0 +5%
+
+XF86AudioLowerVolume
+    pactl set-sink-volume 0 -5%
+
+XF86AudioMute
+    pactl set-sink-mute 0 toggle
+
+XF86AudioMicMute
+    pactl set-source-mute 1 toggle
+
+XF86MonBrightnessUp
+    brightnessctl set +5%
+
+XF86MonBrightnessDown
+    brightnessctl set 5%-
