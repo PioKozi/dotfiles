@@ -49,7 +49,7 @@ let g:gruvbox_contrast_dark = "medium"
 let g:gruvbox_italicize_comments = 1
 let g:gruvbox_italicize_strings = 1
 let g:gruvbox_invert_tabline = 0
-let g:gruvbox_improved_strings = 1
+let g:gruvbox_improved_strings = 0
 let g:gruvbox_improved_warnings = 1
 colo gruvbox
 
