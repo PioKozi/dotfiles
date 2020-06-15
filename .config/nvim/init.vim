@@ -15,6 +15,7 @@ call plug#begin('~/.config/nvim/plugged')
 
     " colours
     Plug 'norcalli/nvim-colorizer.lua'
+    Plug 'ap/vim-css-color'
     Plug 'luochen1990/rainbow'
 
     " quality of textediting
@@ -22,7 +23,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'tpope/vim-commentary'
     Plug 'unblevable/quick-scope'
     Plug 'chaoren/vim-wordmotion'
-    Plug 'junegunn/fzf'
+    Plug 'junegunn/fzf', {'do': { -> fzf#install() }}
     Plug 'jiangmiao/auto-pairs'
 
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -95,5 +96,12 @@ call coc#add_extension(
     \ 'coc-clangd',
     \ 'coc-go',
     \ 'coc-python',
-    \ 'coc-texlab'
+    \ 'coc-texlab',
+    \ 'coc-sh',
+    \ 'coc-markdownlint'
     \ )
+
+" ### quick-scope ###
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
+highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
