@@ -41,6 +41,8 @@ zinit light-mode for \
 zinit light zsh-users/zsh-autosuggestions
 zinit light zsh-users/zsh-syntax-highlighting
 zinit ice depth=1; zinit light romkatv/powerlevel10k
+zinit light zsh-users/zsh-completions
+zinit light leophys/zsh-plugin-fzf-finder
 
 ### End of Zinit's installer chunk
 
