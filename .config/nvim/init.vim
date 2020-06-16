@@ -1,17 +1,18 @@
 call plug#begin('~/.config/nvim/plugged')
 
-    " For looks
+    " For appearance
     Plug 'morhetz/gruvbox'    
     Plug 'vim-airline/vim-airline'
 
-    " git
+    " git integration
     Plug 'airblade/vim-gitgutter'
     Plug 'tpope/vim-fugitive'
 
-    " filetree
+    " finding files
     Plug 'scrooloose/nerdtree'
     Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
     Plug 'xuyuanp/nerdtree-git-plugin'
+    Plug 'junegunn/fzf', {'do': { -> fzf#install() }}
 
     " colours
     Plug 'norcalli/nvim-colorizer.lua'
@@ -23,7 +24,6 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'tpope/vim-commentary'
     Plug 'unblevable/quick-scope'
     Plug 'chaoren/vim-wordmotion'
-    Plug 'junegunn/fzf', {'do': { -> fzf#install() }}
     Plug 'jiangmiao/auto-pairs'
 
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -34,7 +34,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'vim-python/python-syntax'
     Plug 'zchee/deoplete-jedi'
 
-    " other nice little things
+    " other nice little things that aren't important
     Plug 'ryanoasis/vim-devicons'
 
 call plug#end()
@@ -76,6 +76,8 @@ set autoindent smartindent cindent
 set shiftwidth=4
 set softtabstop=4
 set tabstop=4
+" splits
+set splitbelow splitright " these just feel more right
 
 " ### airline ####
 let g:airline#extensions#tabline#enabled = 1
