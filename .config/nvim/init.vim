@@ -33,6 +33,8 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'lervag/vimtex'
     Plug 'vim-python/python-syntax'
     Plug 'zchee/deoplete-jedi'
+    Plug 'neovimhaskell/haskell-vim'
+    Plug 'alx741/vim-stylishask'
 
     " other nice little things that aren't important
     Plug 'ryanoasis/vim-devicons'
@@ -77,7 +79,7 @@ set shiftwidth=4
 set softtabstop=4
 set tabstop=4
 " splits
-set splitbelow splitright " these just feel more right
+set splitright splitbelow " these just feel more right
 
 " ### airline ####
 let g:airline#extensions#tabline#enabled = 1
@@ -95,6 +97,7 @@ set cmdheight=2 " space for displaying messages
 set updatetime=300
 
 call coc#add_extension(
+    \ 'coc-marketplace',
     \ 'coc-clangd',
     \ 'coc-go',
     \ 'coc-python',
@@ -107,3 +110,17 @@ call coc#add_extension(
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
 highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
+
+" ### haskell ###
+" why is this language so much more of a pain in nvim than others...
+let g:stylishask_on_save = 1
+
+let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
+let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
+let g:haskell_enable_arrowsyntax = 1      " to enable highlighting of `proc`
+let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
+let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
+let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
+let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
+let g:haskell_classic_highlighting = 1    " more traditional highlighting
+" using default indent sizes

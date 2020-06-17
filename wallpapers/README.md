@@ -1,6 +1,5 @@
-# Wallpaper sources:
+# Wallpapers
 
-[a-bunch-of-rocks.png](https://www.reddit.com/r/unixporn/comments/bpvwxv/i3_gruvbox_rice/)
+The wallpapers are some of my favourite strips from the popular webcomic [xkcd](https://xkcd.com).  
 
-
-[gruvbox-pacman.png](https://www.reddit.com/r/unixporn/comments/cf5ewf/i3gaps_gruvbox_gruvbox_everywhere/)
+They have been recoloured by me in GIMP to match the [gruvbox theme](https://github.com/morhetz/gruvbox).
