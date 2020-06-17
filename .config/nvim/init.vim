@@ -24,6 +24,8 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'unblevable/quick-scope'
     Plug 'chaoren/vim-wordmotion'
     Plug 'jiangmiao/auto-pairs'
+    Plug 'SirVer/ultisnips'
+    Plug 'honza/vim-snippets'
 
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
@@ -98,6 +100,10 @@ let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_math = 1
 let g:vim_markdown_strikethrough = 1
 
+" ### latex ###
+let g:vimtex_compiler_progname = 'nvr'
+let g:tex_flavor = 'latex'
+
 " ### coc ###
 set hidden
 set cmdheight=2 " space for displaying messages
@@ -105,13 +111,19 @@ set updatetime=300
 
 call coc#add_extension(
     \ 'coc-marketplace',
+    \ 'coc-json',
     \ 'coc-clangd',
     \ 'coc-go',
     \ 'coc-python',
-    \ 'coc-texlab',
     \ 'coc-sh',
     \ 'coc-markdownlint',
+    \ 'coc-vimtex',
     \ )
+
+" ### snippets ###
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-x>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 " ### quick-scope ###
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
