@@ -3,7 +3,6 @@ call plug#begin('~/.config/nvim/plugged')
     " For appearance
     Plug 'morhetz/gruvbox'    
     Plug 'vim-airline/vim-airline'
-
     " git integration
     Plug 'airblade/vim-gitgutter'
     Plug 'tpope/vim-fugitive'
@@ -86,6 +85,14 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#coc#enabled = 1
 
+" ### wordmotion ###
+" because this plugin is a little bit dodgy around these - but this solution
+" is in the README so ok
+nmap dw de
+nmap cw ce
+nmap dW dE
+nmap cW cE
+
 " ### markdown ###
 let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_math = 1
@@ -103,7 +110,7 @@ call coc#add_extension(
     \ 'coc-python',
     \ 'coc-texlab',
     \ 'coc-sh',
-    \ 'coc-markdownlint'
+    \ 'coc-markdownlint',
     \ )
 
 " ### quick-scope ###
@@ -112,7 +119,6 @@ highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=unde
 highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
 
 " ### haskell ###
-" why is this language so much more of a pain in nvim than others...
 let g:stylishask_on_save = 1
 
 let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
