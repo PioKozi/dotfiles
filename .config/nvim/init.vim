@@ -3,6 +3,7 @@ call plug#begin('~/.config/nvim/plugged')
     " For appearance
     Plug 'morhetz/gruvbox'    
     Plug 'vim-airline/vim-airline'
+
     " git integration
     Plug 'airblade/vim-gitgutter'
     Plug 'tpope/vim-fugitive'
@@ -23,6 +24,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'tpope/vim-commentary'
     Plug 'unblevable/quick-scope'
     Plug 'chaoren/vim-wordmotion'
+    Plug 'ludovicchabant/vim-gutentags'
     Plug 'jiangmiao/auto-pairs'
     Plug 'SirVer/ultisnips'
     Plug 'honza/vim-snippets'
@@ -42,6 +44,34 @@ call plug#begin('~/.config/nvim/plugged')
 
 call plug#end()
 
+let mapleader=" "
+
+nmap <leader>S :setlocal spell!<CR>
+nmap <leader>s :nohlsearch<CR>
+
+" switch windows in any mode with alt + hjkl
+tnoremap <C-A-h> <C-\><C-N><C-w>h
+tnoremap <C-A-j> <C-\><C-N><C-w>j
+tnoremap <C-A-k> <C-\><C-N><C-w>k
+tnoremap <C-A-l> <C-\><C-N><C-w>l
+inoremap <C-A-h> <C-\><C-N><C-w>h
+inoremap <C-A-j> <C-\><C-N><C-w>j
+inoremap <C-A-k> <C-\><C-N><C-w>k
+inoremap <C-A-l> <C-\><C-N><C-w>l
+nnoremap <C-A-h> <C-w>h
+nnoremap <C-A-j> <C-w>j
+nnoremap <C-A-k> <C-w>k
+nnoremap <C-A-l> <C-w>l
+
+" ### misc ###
+set number relativenumber
+set signcolumn=yes
+syntax enable
+filetype plugin indent on
+set cursorline
+set shortmess=IatO
+set spelllang=en_gb
+
 " ### appearance ###
 set termguicolors
 let g:gruvbox_bold = 1
@@ -57,19 +87,11 @@ let g:gruvbox_improved_strings = 0
 let g:gruvbox_improved_warnings = 1
 colo gruvbox
 
-" ### misc ###
-set number relativenumber
-set signcolumn=yes
-syntax enable
-filetype plugin indent on
-set cursorline
-set shortmess=IatO
-
 " ### behaviour ###
 set magic
 set mouse=nicr " mouse with visual is messy
 set clipboard=unnamed
-set scrolloff=10
+set scrolloff=13 " unlucky. Oooh. Spooky.
 set history=1000
 set undofile
 set ignorecase smartcase
@@ -80,7 +102,7 @@ set shiftwidth=4
 set softtabstop=4
 set tabstop=4
 " splits
-set splitright splitbelow " these just feel more right
+set splitright " top and right feels better... no politics involved please
 
 " ### airline ####
 let g:airline#extensions#tabline#enabled = 1
