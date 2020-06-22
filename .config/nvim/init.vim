@@ -2,6 +2,7 @@ call plug#begin('~/.config/nvim/plugged')
 
     " For appearance
     Plug 'morhetz/gruvbox'    
+    Plug 'freeo/vim-kalisi'
     Plug 'vim-airline/vim-airline'
 
     " git integration
@@ -22,9 +23,9 @@ call plug#begin('~/.config/nvim/plugged')
     " quality of textediting
     Plug 'tpope/vim-surround'
     Plug 'tpope/vim-commentary'
+    Plug 'junegunn/vim-easy-align'
     Plug 'unblevable/quick-scope'
     Plug 'chaoren/vim-wordmotion'
-    Plug 'ludovicchabant/vim-gutentags'
     Plug 'jiangmiao/auto-pairs'
     Plug 'SirVer/ultisnips'
     Plug 'honza/vim-snippets'
@@ -43,25 +44,6 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'ryanoasis/vim-devicons'
 
 call plug#end()
-
-let mapleader=" "
-
-nmap <leader>S :setlocal spell!<CR>
-nmap <leader>s :nohlsearch<CR>
-
-" switch windows in any mode with alt + hjkl
-tnoremap <C-A-h> <C-\><C-N><C-w>h
-tnoremap <C-A-j> <C-\><C-N><C-w>j
-tnoremap <C-A-k> <C-\><C-N><C-w>k
-tnoremap <C-A-l> <C-\><C-N><C-w>l
-inoremap <C-A-h> <C-\><C-N><C-w>h
-inoremap <C-A-j> <C-\><C-N><C-w>j
-inoremap <C-A-k> <C-\><C-N><C-w>k
-inoremap <C-A-l> <C-\><C-N><C-w>l
-nnoremap <C-A-h> <C-w>h
-nnoremap <C-A-j> <C-w>j
-nnoremap <C-A-k> <C-w>k
-nnoremap <C-A-l> <C-w>l
 
 " ### misc ###
 set number relativenumber
@@ -133,6 +115,8 @@ set updatetime=300
 
 call coc#add_extension(
     \ 'coc-marketplace',
+    \ 'coc-yank',
+    \ 'coc-snippets',
     \ 'coc-json',
     \ 'coc-clangd',
     \ 'coc-go',
@@ -140,6 +124,11 @@ call coc#add_extension(
     \ 'coc-sh',
     \ 'coc-markdownlint',
     \ 'coc-vimtex',
+    \ 'coc-html',
+    \ 'coc-css',
+    \ 'coc-xml',
+    \ 'coc-prettier',
+    \ 'coc-vimlsp',
     \ )
 
 " ### snippets ###
@@ -151,6 +140,10 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
 highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
+
+" ### easy-align ###
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
 
 " ### haskell ###
 let g:stylishask_on_save = 1

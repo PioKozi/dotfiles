@@ -1,32 +1,28 @@
 #!/bin/bash
-# piokozi's startup script
 
-if ! [[pgrep dunst]]
-then
-	dunst &
+if [[ -z "$(pgrep batsignal)" ]]; then
+    batsignal -w 20 -c 5 -d 2 -f 100 -W "BATTERY LOW" -C "BATTERY CRITICAL" -F "BATTERY FULL" -a "battery" -b
 fi
 
-if ! [[pgrep sxhkd]]
-then
-	sxhkd &
+if [[ -z "$(pgrep dunst)" ]]; then
+    dunst &
 fi
 
-if ! [[pgrep slstatus]]
-then
-	slstatus &
+if [[ -z "$(pgrep sxhkd)" ]]; then
+    sxhkd &
 fi
 
-if ! [[pgrep flameshot]]
-then
+if [[ -z "$(pgrep slstatus)" ]]; then
+    slstatus &
+fi
+
+if [[ -z "$(pgrep flameshot)" ]]; then
     flameshot &
 fi
 
-if ! [[pgrep xbanish]]
-then
+if [[ -z "$(pgrep xbanish)" ]]; then
     xbanish &
 fi
 
- # feh --bg-fill `ls -d $HOME/Pictures/wallpapers/gruvbox/* | shuf -n 1`
- # yeah, the variety is nice, but I just like this wallpaper more
-
+# feh --bg-fill `ls -d $HOME/Pictures/wallpapers/gruvbox/* | shuf -n 1`
 feh --bg-fill $HOME/Pictures/wallpapers/gruvbox/linux_user_at_best_buy.png
