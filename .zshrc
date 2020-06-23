@@ -8,13 +8,17 @@ fi
 # aliases for tools I like and use
 alias v='nvim'
 alias l='exa -l --color=always --git'
+alias todo='nvim $HOME/.todo.md'
 
 # aliases for the kitty terminal
-alias ssh='kitty +kitten ssh'
-alias icat='kitty +kitten icat'
+if [[ $TERM == "xterm-kitty" ]]; then
+    alias ssh='kitty +kitten ssh'
+    alias icat='kitty +kitten icat'
+fi
 
 #varius exports
-export BAT_THEME='OneHalfDark'
+export EDITOR='nvim'
+export BAT_THEME='base16'
 
 # The following lines were added by compinstall
 zstyle ':completion:*' completer _expand _complete _ignored _approximate

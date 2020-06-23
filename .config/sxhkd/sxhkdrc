@@ -12,6 +12,10 @@ super + @Print
 @Print
     flameshot gui
 
+#
+# controls on laptop keyboard
+#
+
 XF86AudioRaiseVolume
     pactl set-sink-volume 0 +5%
 
@@ -28,4 +32,26 @@ XF86MonBrightnessUp
     brightnessctl set +5%
 
 XF86MonBrightnessDown
+    brightnessctl set 5%-
+
+#
+# controls on very nice other keyboard :)
+#
+
+control + alt + l
+    pactl set-sink-volume 0 +5%
+
+control + alt + q
+    pactl set-sink-volume 0 -5%
+
+control + alt + m  + o
+    pactl set-sink-mute 0 toggle
+
+control + alt + m + i
+    pactl set-source-mute 1 toggle
+
+control + alt + b
+    brightnessctl set +5%
+
+control + alt + d
     brightnessctl set 5%-
