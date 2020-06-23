@@ -2,7 +2,6 @@ call plug#begin('~/.config/nvim/plugged')
 
     " For appearance
     Plug 'morhetz/gruvbox'    
-    Plug 'freeo/vim-kalisi'
     Plug 'vim-airline/vim-airline'
 
     " git integration
@@ -52,7 +51,6 @@ syntax enable
 filetype plugin indent on
 set cursorline
 set shortmess=IatO
-set spelllang=en_gb
 
 " ### appearance ###
 set termguicolors
@@ -99,6 +97,10 @@ nmap cw ce
 nmap dW dE
 nmap cW cE
 
+" ### spellchecking ###
+set spelllang=en_gb
+autocmd FileType text,markdown,tex setlocal spell
+
 " ### markdown ###
 let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_math = 1
@@ -117,6 +119,7 @@ call coc#add_extension(
     \ 'coc-marketplace',
     \ 'coc-yank',
     \ 'coc-snippets',
+    \ 'coc-ultisnips',
     \ 'coc-json',
     \ 'coc-clangd',
     \ 'coc-go',
