@@ -7,6 +7,7 @@ call plug#begin('~/.config/nvim/plugged')
     " git integration
     Plug 'airblade/vim-gitgutter'
     Plug 'tpope/vim-fugitive'
+    Plug 'rbong/vim-flog'
 
     " finding files
     Plug 'scrooloose/nerdtree'
@@ -22,7 +23,9 @@ call plug#begin('~/.config/nvim/plugged')
     " quality of textediting
     Plug 'tpope/vim-surround'
     Plug 'tpope/vim-commentary'
+    Plug 'tpope/vim-unimpaired'
     Plug 'junegunn/vim-easy-align'
+    Plug 'christoomey/vim-sort-motion'
     Plug 'unblevable/quick-scope'
     Plug 'chaoren/vim-wordmotion'
     Plug 'jiangmiao/auto-pairs'
@@ -43,6 +46,19 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'ryanoasis/vim-devicons'
 
 call plug#end()
+
+let mapleader = " "
+
+" ### shortcuts ###
+" nerdtree
+nmap <leader>tt :NERDTreeToggle<CR>
+nmap <leader>tf :NERDTreeFocus<CR>
+
+" make arrows resize splits
+nnoremap <silent><Up>    :resize +2<CR>
+nnoremap <silent><Down>  :resize -2<CR>
+nnoremap <silent><Left>  :vertical resize +2<CR>
+nnoremap <silent><Right> :vertical resize -2<CR>
 
 " ### misc ###
 set number relativenumber
@@ -71,7 +87,7 @@ colo gruvbox
 set magic
 set mouse=nicr " mouse with visual is messy
 set clipboard=unnamed
-set scrolloff=13 " unlucky. Oooh. Spooky.
+set scrolloff=10
 set history=1000
 set undofile
 set ignorecase smartcase
@@ -82,7 +98,7 @@ set shiftwidth=4
 set softtabstop=4
 set tabstop=4
 " splits
-set splitright " top and right feels better... no politics involved please
+set splitright splitbelow 
 
 " ### airline ####
 let g:airline#extensions#tabline#enabled = 1
