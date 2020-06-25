@@ -24,6 +24,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'tpope/vim-surround'
     Plug 'tpope/vim-commentary'
     Plug 'tpope/vim-unimpaired'
+    Plug 'tpope/vim-eunuch'
     Plug 'junegunn/vim-easy-align'
     Plug 'christoomey/vim-sort-motion'
     Plug 'unblevable/quick-scope'

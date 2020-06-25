@@ -8,7 +8,8 @@ fi
 # aliases for tools I like and use
 alias v='nvim'
 alias l='exa -l --color=always --git'
-alias todo='nvim $HOME/.todo.md'
+alias la='exa -la --color=always --git'
+alias todo='nvim $HOME/.TODO.md'
 
 # aliases for the kitty terminal
 if [[ $TERM == "xterm-kitty" ]]; then
