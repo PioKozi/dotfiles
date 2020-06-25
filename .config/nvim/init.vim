@@ -47,18 +47,15 @@ call plug#begin('~/.config/nvim/plugged')
 
 call plug#end()
 
+" ### shortcuts ###
+
 let mapleader = " "
 
-" ### shortcuts ###
 " nerdtree
 nmap <leader>tt :NERDTreeToggle<CR>
 nmap <leader>tf :NERDTreeFocus<CR>
+nmap <leader>s  :noh<CR>
 
-" make arrows resize splits
-nnoremap <silent><Up>    :resize +2<CR>
-nnoremap <silent><Down>  :resize -2<CR>
-nnoremap <silent><Left>  :vertical resize +2<CR>
-nnoremap <silent><Right> :vertical resize -2<CR>
 
 " ### misc ###
 set number relativenumber
@@ -67,6 +64,7 @@ syntax enable
 filetype plugin indent on
 set cursorline
 set shortmess=IatO
+set textwidth=80
 
 " ### appearance ###
 set termguicolors
@@ -106,8 +104,7 @@ let g:airline_powerline_fonts = 1
 let g:airline#extensions#coc#enabled = 1
 
 " ### wordmotion ###
-" because this plugin is a little bit dodgy around these - but this solution
-" is in the README so ok
+let g:wordmotion_spaces = '_-./\#'
 nmap dw de
 nmap cw ce
 nmap dW dE
@@ -146,7 +143,6 @@ call coc#add_extension(
     \ 'coc-html',
     \ 'coc-css',
     \ 'coc-xml',
-    \ 'coc-prettier',
     \ 'coc-vimlsp',
     \ )
 
