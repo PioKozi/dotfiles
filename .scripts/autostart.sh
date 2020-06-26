@@ -25,4 +25,4 @@ if [[ -z "$(pgrep xbanish)" ]]; then
 fi
 
 # feh --bg-fill `ls -d $HOME/Pictures/wallpapers/gruvbox/* | shuf -n 1`
-feh --no-fehbg --bg-fill $HOME/Pictures/wallpapers/gruvbox/linux_user_at_best_buy.png
+feh --no-fehbg --bg-fill $HOME/Pictures/wallpapers/gruvbox/campfire.png
