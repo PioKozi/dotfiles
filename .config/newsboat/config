@@ -2,14 +2,14 @@ auto-reload yes
 
 # color element foreground background
 
-color info              color4 color0 dim
+color info              color4 color0
 color background        color7 color0
 color article           color7 color0
 
 color listnormal        color7 color0 dim
-color listfocus         color0 color7
-color listnormal_unread color2 color0
-color listfocus_unread  color0 color2 bold
+color listfocus         color7 color0 bold
+color listnormal_unread color2 color0 dim
+color listfocus_unread  color2 color0 bold 
 
 browser "firefox %u"
 # macro e set browser "elinks %u"; open-in-browser; set browser "firefox %u"
