@@ -4,7 +4,7 @@
 #
 
 super + shift + @Delete
-    i3lock -c "282828"
+    i3lock -c "1d2021"
 
 super + @Print
     flameshot full -c

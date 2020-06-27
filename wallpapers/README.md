@@ -8,6 +8,5 @@ Relevant comics are:
 
 * [campfire](https://xkcd.com/742/)
 * [garbage math](https://xkcd.com/2295/)
-* [git commit](https://xkcd.com/1296/)
 * [linux user at best buy](https://xkcd.com/272/)
 * [slippery slope](https://xkcd.com/1332/)
