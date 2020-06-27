@@ -21,6 +21,13 @@ fi
 export EDITOR='nvim'
 export BAT_THEME='base16'
 
+export HISTSIZE=1000
+export SAVEHIST=1000
+export HISTFILE=$HOME/.zsh_history
+setopt INC_APPEND_HISTORY
+setopt HIST_IGNORE_DUPS
+setopt EXTENDED_HISTORY
+
 # The following lines were added by compinstall
 zstyle ':completion:*' completer _expand _complete _ignored _approximate
 zstyle ':completion:*' matcher-list 'm:{[:lower:]}={[:upper:]}' 'r:|[._-]=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'l:|=* r:|=*'
@@ -31,6 +38,10 @@ bindkey -v
 
 # Remove delay when entering normal mode (vi)
 KEYTIMEOUT=5
+
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
 
 # Change cursor shape for different vi modes.
 function zle-keymap-select {
@@ -46,11 +57,6 @@ zle -N zle-keymap-select
 zle-line-init() { zle-keymap-select 'beam'}
 
 unsetopt BEEP
-
-autoload -Uz compinit
-compinit
-# End of lines added by compinstall
-
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
     print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
@@ -79,6 +85,11 @@ zinit light zsh-users/zsh-completions
 zinit light leophys/zsh-plugin-fzf-finder
 zinit light Aloxaf/fzf-tab
 zinit light Nyquase/vi-mode
+
+bindkey -r "^[OA"
+bindkey -r "^[OB"
+bindkey "^[OA" up-history
+bindkey "^[OB" down-history
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
