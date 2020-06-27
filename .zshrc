@@ -9,6 +9,10 @@ fi
 alias v='nvim'
 alias l='exa -l --color=always --git'
 alias la='exa -la --color=always --git'
+alias ga='git add'
+alias gc='git commit'
+alias gcm='git commit -m'
+alias gp='git push'
 alias todo='nvim $HOME/.TODO.md'
 
 # aliases for the kitty terminal
@@ -85,11 +89,18 @@ zinit light zsh-users/zsh-completions
 zinit light leophys/zsh-plugin-fzf-finder
 zinit light Aloxaf/fzf-tab
 zinit light Nyquase/vi-mode
+zinit light zsh-users/zsh-history-substring-search
 
 bindkey -r "^[OA"
 bindkey -r "^[OB"
-bindkey "^[OA" up-history
-bindkey "^[OB" down-history
+bindkey -r "^P"
+bindkey -r "^N"
+
+bindkey "^[OA" history-substring-search-up
+bindkey "^[OB" history-substring-search-down
+bindkey "^P" history-substring-search-up
+bindkey "^N" history-substring-search-down
+
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
