@@ -14,6 +14,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
     Plug 'xuyuanp/nerdtree-git-plugin'
     Plug 'junegunn/fzf', {'do': { -> fzf#install() }}
+    Plug 'ctrlpvim/ctrlp.vim'
 
     " colours
     Plug 'norcalli/nvim-colorizer.lua'
@@ -74,7 +75,7 @@ let g:gruvbox_italic = 1
 let g:gruvbox_underline = 1
 let g:gruvbox_undercurl = 1
 let g:gruvbox_termcolors = 256
-let g:gruvbox_contrast_dark = "medium"
+let g:gruvbox_contrast_dark = "hard"
 let g:gruvbox_italicize_comments = 1
 let g:gruvbox_italicize_strings = 1
 let g:gruvbox_invert_tabline = 0
@@ -90,6 +91,7 @@ set scrolloff=10
 set history=1000
 set undofile
 set ignorecase smartcase
+set wildignore+=*/tmp*,*.so,*.swp,*.zip
 " tabs
 set expandtab
 set autoindent smartindent cindent
@@ -111,7 +113,12 @@ nmap cw ce
 nmap dW dE
 nmap cW cE
 
-" ### spellchecking ###
+" ### ctrlp ###
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_working_path_mode = 'ra'
+
+" " ### spellchecking ###
 set spelllang=en_gb
 autocmd FileType text,markdown,tex setlocal spell
 
@@ -146,6 +153,12 @@ call coc#add_extension(
     \ 'coc-xml',
     \ 'coc-vimlsp',
     \ )
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
 " ### snippets ###
 let g:UltiSnipsExpandTrigger="<tab>"
