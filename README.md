@@ -4,4 +4,5 @@ Dotfiles are what make my desktop and applications therein look nice. Mine are a
 
 They are all following the gruvbox theme - currently.
 
-![My desktop](gruvbox.png)
+![My desktop busy](busy.png)
+![My desktop clean](clean.png)
