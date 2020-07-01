@@ -7,13 +7,16 @@ fi
 
 # aliases for tools I like and use
 alias v='nvim'
+alias ls='exa'
 alias l='exa -l --color=always --git'
+alias ll='exa -l --color=always --git'
 alias la='exa -la --color=always --git'
-alias ga='git add'
-alias gc='git commit'
-alias gcm='git commit -m'
-alias gp='git push'
 alias todo='nvim $HOME/.TODO.md'
+
+function paste() {
+    local file=${1:-/dev/stdin}
+    curl --data-binary $${file} https://paste.rs
+}
 
 # aliases for the kitty terminal
 if [[ $TERM == "xterm-kitty" ]]; then
@@ -91,6 +94,7 @@ zinit light Aloxaf/fzf-tab
 zinit light Nyquase/vi-mode
 zinit light zsh-users/zsh-history-substring-search
 
+# search history using that cool substring search feature
 bindkey -r "^[OA"
 bindkey -r "^[OB"
 bindkey -r "^P"
@@ -101,6 +105,7 @@ bindkey "^[OB" history-substring-search-down
 bindkey "^P" history-substring-search-up
 bindkey "^N" history-substring-search-down
 
+zinit light ael-code/zsh-colored-man-pages
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
