@@ -16,10 +16,10 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'junegunn/fzf', {'do': { -> fzf#install() }}
     Plug 'ctrlpvim/ctrlp.vim'
 
-    " colours
+    " colours/highlighting
     Plug 'norcalli/nvim-colorizer.lua'
-    Plug 'ap/vim-css-color'
     Plug 'luochen1990/rainbow'
+    Plug 'jeaye/color_coded'
 
     " quality of textediting
     Plug 'tpope/vim-surround'
@@ -34,7 +34,9 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'SirVer/ultisnips'
     Plug 'honza/vim-snippets'
 
+    " the BIG things
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    Plug 'sheerun/vim-polyglot'
 
     " languages + formats (most are in coc.nvim)
     Plug 'plasticboy/vim-markdown'
@@ -83,11 +85,13 @@ let g:gruvbox_improved_strings = 0
 let g:gruvbox_improved_warnings = 1
 colo gruvbox
 
+lua require'colorizer'.setup()
+
 " ### behaviour ###
 set magic
 set mouse=nicr " mouse with visual is messy
 set clipboard=unnamed
-set scrolloff=10
+set scrolloff=15
 set history=1000
 set undofile
 set ignorecase smartcase
