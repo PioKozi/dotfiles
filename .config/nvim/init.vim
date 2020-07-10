@@ -3,6 +3,7 @@ call plug#begin('~/.config/nvim/plugged')
     " For appearance
     Plug 'morhetz/gruvbox'    
     Plug 'vim-airline/vim-airline'
+    Plug 'Artturin/vim-airline-themes'
 
     " git integration
     Plug 'airblade/vim-gitgutter'
@@ -73,6 +74,7 @@ syntax on
 set cursorline
 set shortmess=IatO
 set textwidth=80
+set updatetime=100
 
 " ### appearance ###
 set termguicolors
@@ -81,12 +83,14 @@ let g:gruvbox_italic = 1
 let g:gruvbox_underline = 1
 let g:gruvbox_undercurl = 1
 let g:gruvbox_termcolors = 256
-let g:gruvbox_contrast_dark = "hard"
+let g:gruvbox_contrast_dark = 'hard'
 let g:gruvbox_italicize_comments = 1
 let g:gruvbox_italicize_strings = 1
 let g:gruvbox_invert_tabline = 0
 let g:gruvbox_improved_strings = 0
 let g:gruvbox_improved_warnings = 1
+let g:gruvbox_invert_selection = 0
+let g:gruvbox_sign_column = 'bg0'
 colo gruvbox
 
 lua require'colorizer'.setup()
@@ -113,6 +117,7 @@ set splitright splitbelow
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#coc#enabled = 1
+let g:airline_theme='custom_gruvbox_dark_hard'
 
 " ### wordmotion ###
 let g:wordmotion_spaces = '_-./\#'
@@ -131,9 +136,13 @@ set spelllang=en_gb
 autocmd FileType text,markdown,tex setlocal spell
 
 " ### markdown ###
+let g:vim_markdown_conceal = 0
+let g:vim_markdown_conceal_code_blocks = 0
 let g:vim_markdown_folding_disabled = 1
+let g:tex_conceal = ""
 let g:vim_markdown_math = 1
 let g:vim_markdown_strikethrough = 1
+let g:vim_markdown_toml_frontmatter = 1
 
 " ### latex ###
 let g:vimtex_compiler_progname = 'nvr'
