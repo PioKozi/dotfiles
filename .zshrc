@@ -7,11 +7,15 @@ fi
 
 # aliases for tools I like and use
 alias v='nvim'
+alias vi='nvim'
+alias vim='nvim'
 alias ls='exa'
 alias l='exa -l --color=always --git'
 alias ll='exa -l --color=always --git'
 alias la='exa -la --color=always --git'
 alias todo='nvim $HOME/.TODO.md'
+alias journal='nvim $HOME/Documents/journal/$(date "+%d-%m-%y").md'
+alias fuck='sudo !!'
 
 function paste() {
     local file=${1:-/dev/stdin}
@@ -34,6 +38,7 @@ export HISTFILE=$HOME/.zsh_history
 setopt INC_APPEND_HISTORY
 setopt HIST_IGNORE_DUPS
 setopt EXTENDED_HISTORY
+unsetopt BEEP
 
 # The following lines were added by compinstall
 zstyle ':completion:*' completer _expand _complete _ignored _approximate
@@ -63,7 +68,6 @@ zle -N zle-keymap-select
 # Start with beam shape cursor on zsh startup and after every command.
 zle-line-init() { zle-keymap-select 'beam'}
 
-unsetopt BEEP
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
     print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"

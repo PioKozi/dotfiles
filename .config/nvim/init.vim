@@ -19,7 +19,6 @@ call plug#begin('~/.config/nvim/plugged')
     " colours/highlighting
     Plug 'norcalli/nvim-colorizer.lua'
     Plug 'luochen1990/rainbow'
-    Plug 'jeaye/color_coded'
 
     " quality of textediting
     Plug 'tpope/vim-surround'
@@ -31,28 +30,33 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'unblevable/quick-scope'
     Plug 'chaoren/vim-wordmotion'
     Plug 'jiangmiao/auto-pairs'
+    Plug 'alvan/vim-closetag', { 'for': ['html', 'xml'] }
     Plug 'SirVer/ultisnips'
     Plug 'honza/vim-snippets'
+    Plug 'michaeljsmith/vim-indent-object'
 
     " the BIG things
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
     Plug 'sheerun/vim-polyglot'
 
-    " languages + formats (most are in coc.nvim)
+    " programming + writing (most are in coc.nvim)
     Plug 'plasticboy/vim-markdown'
     Plug 'lervag/vimtex'
     Plug 'vim-python/python-syntax'
     Plug 'zchee/deoplete-jedi'
     Plug 'neovimhaskell/haskell-vim'
     Plug 'alx741/vim-stylishask'
+    Plug 'fatih/vim-go'
+    Plug 'jackguo380/vim-lsp-cxx-highlight'
 
     " other nice little things that aren't important
+    Plug 'Yggdroot/indentLine'
     Plug 'ryanoasis/vim-devicons'
+    Plug 'djoshea/vim-autoread'
 
 call plug#end()
 
 " ### shortcuts ###
-
 let mapleader = " "
 
 " nerdtree
@@ -60,12 +64,12 @@ nmap <leader>tt :NERDTreeToggle<CR>
 nmap <leader>tf :NERDTreeFocus<CR>
 nmap <leader>s  :noh<CR>
 
-
 " ### misc ###
 set number relativenumber
 set signcolumn=yes
 syntax enable
 filetype plugin indent on
+syntax on
 set cursorline
 set shortmess=IatO
 set textwidth=80
@@ -90,7 +94,7 @@ lua require'colorizer'.setup()
 " ### behaviour ###
 set magic
 set mouse=nicr " mouse with visual is messy
-set clipboard=unnamed
+set clipboard+=unnamedplus
 set scrolloff=15
 set history=1000
 set undofile
