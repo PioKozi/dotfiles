@@ -3,7 +3,7 @@ call plug#begin('~/.config/nvim/plugged')
     " For appearance
     Plug 'morhetz/gruvbox'    
     Plug 'vim-airline/vim-airline'
-    Plug 'Artturin/vim-airline-themes'
+    Plug 'vim-airline/vim-airline-themes'
 
     " git integration
     Plug 'airblade/vim-gitgutter'
@@ -47,8 +47,9 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'zchee/deoplete-jedi'
     Plug 'neovimhaskell/haskell-vim'
     Plug 'alx741/vim-stylishask'
-    Plug 'fatih/vim-go'
+    " Plug 'fatih/vim-go'
     Plug 'jackguo380/vim-lsp-cxx-highlight'
+    Plug 'sbdchd/neoformat'
 
     " other nice little things that aren't important
     Plug 'Yggdroot/indentLine'
@@ -86,12 +87,17 @@ let g:gruvbox_termcolors = 256
 let g:gruvbox_contrast_dark = 'hard'
 let g:gruvbox_italicize_comments = 1
 let g:gruvbox_italicize_strings = 1
-let g:gruvbox_invert_tabline = 0
+let g:gruvbox_invert_tabline = 1
 let g:gruvbox_improved_strings = 0
 let g:gruvbox_improved_warnings = 1
 let g:gruvbox_invert_selection = 0
 let g:gruvbox_sign_column = 'bg0'
 colo gruvbox
+
+" ### indentation lines plugin ###
+let g:indentLine_setColors = 1
+let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+let g:indentLine_conceallevel = 2
 
 lua require'colorizer'.setup()
 
@@ -117,7 +123,7 @@ set splitright splitbelow
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#coc#enabled = 1
-let g:airline_theme='custom_gruvbox_dark_hard'
+let g:airline_theme='gruvbox'
 
 " ### wordmotion ###
 let g:wordmotion_spaces = '_-./\#'
@@ -203,3 +209,6 @@ let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
 let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
 let g:haskell_classic_highlighting = 1    " more traditional highlighting
 " using default indent sizes
+
+" ### neoformat ###
+autocmd BufWritePre * Neoformat
