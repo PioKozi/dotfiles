@@ -123,7 +123,7 @@ set splitright splitbelow
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#coc#enabled = 1
-let g:airline_theme='gruvbox'
+let g:airline_theme='base16_gruvbox_dark_hard'
 
 " ### wordmotion ###
 let g:wordmotion_spaces = '_-./\#'
@@ -161,20 +161,16 @@ set updatetime=300
 
 call coc#add_extension(
     \ 'coc-marketplace',
-    \ 'coc-yank',
-    \ 'coc-snippets',
-    \ 'coc-ultisnips',
+    \ 'coc-snippets', 'coc-ultisnips',
     \ 'coc-json',
     \ 'coc-clangd',
     \ 'coc-go',
     \ 'coc-python',
     \ 'coc-sh',
-    \ 'coc-markdownlint',
-    \ 'coc-vimtex',
-    \ 'coc-html',
-    \ 'coc-css',
-    \ 'coc-xml',
+    \ 'coc-markdownlint', 'coc-vimtex',
+    \ 'coc-html', 'coc-css', 'coc-xml',
     \ 'coc-vimlsp',
+    \ 'coc-word',
     \ )
 
 " Remap keys for gotos
@@ -184,9 +180,29 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 " ### snippets ###
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-x>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+" let g:UltiSnipsExpandTrigger="<tab>"
+" let g:UltiSnipsJumpForwardTrigger="<c-x>"
+" let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" coc-snippets
+imap <C-l> <Plug>(coc-snippets-expand)
+vmap <C-j> <Plug>(coc-snippets-select)
+let g:coc_snippet_next = '<c-j>'
+let g:coc_snippet_prev = '<c-k>'
+imap <C-j> <Plug>(coc-snippets-expand-jump)
+
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+let g:coc_snippet_next = '<tab>'
 
 " ### quick-scope ###
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
