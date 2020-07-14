@@ -32,7 +32,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'chaoren/vim-wordmotion'
     Plug 'jiangmiao/auto-pairs'
     Plug 'alvan/vim-closetag', { 'for': ['html', 'xml'] }
-    Plug 'SirVer/ultisnips'
+    " Plug 'SirVer/ultisnips'
     Plug 'honza/vim-snippets'
     Plug 'michaeljsmith/vim-indent-object'
 
@@ -55,6 +55,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'Yggdroot/indentLine'
     Plug 'ryanoasis/vim-devicons'
     Plug 'djoshea/vim-autoread'
+    Plug 'vimwiki/vimwiki'
 
 call plug#end()
 
@@ -103,7 +104,7 @@ lua require'colorizer'.setup()
 
 " ### behaviour ###
 set magic
-set mouse=nicr " mouse with visual is messy
+set mouse=a " mouse with visual is messy
 set clipboard+=unnamedplus
 set scrolloff=15
 set history=1000
@@ -123,7 +124,7 @@ set splitright splitbelow
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#coc#enabled = 1
-let g:airline_theme='base16_gruvbox_dark_hard'
+let g:airline_theme='base16_vim'
 
 " ### wordmotion ###
 let g:wordmotion_spaces = '_-./\#'
@@ -161,7 +162,7 @@ set updatetime=300
 
 call coc#add_extension(
     \ 'coc-marketplace',
-    \ 'coc-snippets', 'coc-ultisnips',
+    \ 'coc-snippets',
     \ 'coc-json',
     \ 'coc-clangd',
     \ 'coc-go',
@@ -227,4 +228,4 @@ let g:haskell_classic_highlighting = 1    " more traditional highlighting
 " using default indent sizes
 
 " ### neoformat ###
-autocmd BufWritePre * Neoformat
+" autocmd BufWritePre * Neoformat
