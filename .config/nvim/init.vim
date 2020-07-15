@@ -55,7 +55,6 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'Yggdroot/indentLine'
     Plug 'ryanoasis/vim-devicons'
     Plug 'djoshea/vim-autoread'
-    Plug 'vimwiki/vimwiki'
 
 call plug#end()
 
@@ -66,6 +65,25 @@ let mapleader = " "
 nmap <leader>tt :NERDTreeToggle<CR>
 nmap <leader>tf :NERDTreeFocus<CR>
 nmap <leader>s  :noh<CR>
+
+" ### running programs ###
+if ! file_readable("Makefile") && ! file_readable("MakeFile")
+    au BufEnter *.cpp set makeprg=clang++\ -g\ %\ -o\ %<
+    au BufEnter *.c set makeprg=clang\ -g\ %\ -o\ %<
+endif
+
+au BufEnter *.py set makeprg=python\ %
+
+nmap <F5> :call RunHorizontal()<CR>
+nmap v<F5> :call RunVertical()<CR>
+func! RunHorizontal()
+    exec "w"
+    silent make | copen
+endfunc
+func! RunVertical()
+    exec "w"
+    silent make | vert copen
+endfunc
 
 " ### misc ###
 set number relativenumber
@@ -111,6 +129,7 @@ set history=1000
 set undofile
 set ignorecase smartcase
 set wildignore+=*/tmp*,*.so,*.swp,*.zip
+set matchpairs+=<:>
 " tabs
 set expandtab
 set autoindent smartindent cindent
@@ -168,7 +187,7 @@ call coc#add_extension(
     \ 'coc-go',
     \ 'coc-python',
     \ 'coc-sh',
-    \ 'coc-markdownlint', 'coc-vimtex',
+    \ 'coc-vimtex', 'coc-markdownlint',
     \ 'coc-html', 'coc-css', 'coc-xml',
     \ 'coc-vimlsp',
     \ 'coc-word',
@@ -228,4 +247,4 @@ let g:haskell_classic_highlighting = 1    " more traditional highlighting
 " using default indent sizes
 
 " ### neoformat ###
-" autocmd BufWritePre * Neoformat
+autocmd BufWritePre * Neoformat
