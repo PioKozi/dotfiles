@@ -50,6 +50,7 @@ call plug#begin('~/.config/nvim/plugged')
     " Plug 'fatih/vim-go'
     Plug 'jackguo380/vim-lsp-cxx-highlight'
     Plug 'sbdchd/neoformat'
+    Plug 'vimlab/split-term.vim'
 
     " other nice little things that aren't important
     Plug 'Yggdroot/indentLine'
@@ -62,14 +63,15 @@ call plug#end()
 let mapleader = " "
 
 " nerdtree
-nmap <leader>tt :NERDTreeToggle<CR>
-nmap <leader>tf :NERDTreeFocus<CR>
+nmap <leader>t :Term<CR>
+nmap <leader>f :NERDTreeToggle<CR>
 nmap <leader>s  :noh<CR>
 
 " ### running programs ###
 if ! file_readable("Makefile") && ! file_readable("MakeFile")
     au BufEnter *.cpp set makeprg=clang++\ -g\ %\ -o\ %<
     au BufEnter *.c set makeprg=clang\ -g\ %\ -o\ %<
+    au BufEnter *go set makeprg=go\ build\ *.go
 endif
 
 au BufEnter *.py set makeprg=python\ %
