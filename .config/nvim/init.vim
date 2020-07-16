@@ -64,28 +64,52 @@ let mapleader = " "
 
 " nerdtree
 nmap <leader>t :Term<CR>
+nmap <leader>v :VTerm<CR>
 nmap <leader>f :NERDTreeToggle<CR>
 nmap <leader>s  :noh<CR>
 
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
 " ### running programs ###
+function RunWith(command)
+    execute "w"
+    execute "split | term " . a:command . " " . expand("%")
+endfunction
+function VRunWith(command)
+    execute "w"
+    execute "vsplit | term " . a:command . " " . expand("%")
+endfunction
+
+autocmd FileType python nmap <F5> :call RunWith("python")<cr>
+autocmd FileType python nmap v<F5> :call VRunWith("python")<cr>
+
+function MakeInTerm()
+    execute "w"
+    execute "split | term ! make"
+endfunction
+function VMakeInTerm()
+    execute "w"
+    execute "vsplit | term ! make"
+endfunction
+
 if ! file_readable("Makefile") && ! file_readable("MakeFile")
-    au BufEnter *.cpp set makeprg=clang++\ -g\ %\ -o\ %<
-    au BufEnter *.c set makeprg=clang\ -g\ %\ -o\ %<
-    au BufEnter *go set makeprg=go\ build\ *.go
+    autocmd FileType cpp nmap <F5> :call RunWith("clang++ -Wall -Wextra -pedantic -g -std=c++17 -c")<cr>
+    autocmd FileType c nmap <F5> :call RunWith("clang -Wall -Wextra -pedantic -g -std=c17-c")<cr>
+    autocmd FileType go nmap <F5> :call RunWith("go build")<cr>
+    autocmd FileType cpp nmap v<F5> :call VRunWith("clang++ -Wall -Wextra -pedantic -g -std=c++17 -c")<cr>
+    autocmd FileType c nmap v<F5> :call VRunWith("clang -Wall -Wextra -pedantic -g -std=c17-c")<cr>
+    autocmd FileType go nmap v<F5> :call VRunWith("go build")<cr>
+else
+    autocmd FileType cpp nmap <F5> :call MakeInTerm()<cr>
+    autocmd FileType c nmap <F5> :call MakeInTerm()<cr>
+    autocmd FileType go nmap <F5> :call MakeInTerm()<cr>
+    autocmd FileType cpp nmap v<F5> :call VMakeInTerm()<cr>
+    autocmd FileType c nmap v<F5> :call VMakeInTerm()<cr>
+    autocmd FileType go nmap v<F5> :call VMakeInTerm()<cr>
 endif
-
-au BufEnter *.py set makeprg=python\ %
-
-nmap <F5> :call RunHorizontal()<CR>
-nmap v<F5> :call RunVertical()<CR>
-func! RunHorizontal()
-    exec "w"
-    silent make | copen
-endfunc
-func! RunVertical()
-    exec "w"
-    silent make | vert copen
-endfunc
 
 " ### misc ###
 set number relativenumber
@@ -97,6 +121,7 @@ set cursorline
 set shortmess=IatO
 set textwidth=80
 set updatetime=100
+autocmd TermOpen * startinsert
 
 " ### appearance ###
 set termguicolors
