@@ -3,8 +3,8 @@
 # wm independent hotkeys
 #
 
-super + shift + @Delete
-    i3lock -c "1d2021"
+super + @Delete
+    i3lock -c "1d2021" -f
 
 super + @Print
     flameshot full -c
@@ -39,19 +39,19 @@ XF86MonBrightnessDown
 #
 
 control + alt + l
-    pactl set-sink-volume 0 +5%
+    pactl set-sink-volume 0 +5% ; notify-send --urgency=LOW "increased volume" "$( pactl list sinks | grep '^[[:space:]]Volume:' | head -n $(( $SINK + 1 )) | tail -n 1 | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,')" 
 
 control + alt + q
-    pactl set-sink-volume 0 -5%
+    pactl set-sink-volume 0 -5% ;  notify-send --urgency=LOW "decreased volume" "$( pactl list sinks | grep '^[[:space:]]Volume:' | head -n $(( $SINK + 1 )) | tail -n 1 | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,')"
 
 control + alt + m  + o
     pactl set-sink-mute 0 toggle
 
 control + alt + m + i
-    pactl set-source-mute 1 toggle
+    pactl set-source-mute 1 toggle ; 
 
 control + alt + b
-    brightnessctl set +5%
+    brightnessctl set +5% ; notify-send --urgency=LOW "increased brightness" "$(brightnessctl g)"
 
 control + alt + d
-    brightnessctl set 5%-
+    brightnessctl set 5%- ; notify-send --urgency=LOW "decreased brightness" "$(brightnessctl g)"
