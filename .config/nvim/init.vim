@@ -67,11 +67,19 @@ nmap <leader>t :Term<CR>
 nmap <leader>v :VTerm<CR>
 nmap <leader>f :NERDTreeToggle<CR>
 nmap <leader>s  :noh<CR>
+nmap <leader>c  :cl<CR>
+nmap <leader>e :copen<CR>
+nmap <leader>x :ccl<CR>
 
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+
+nnoremap <M-K> :resize +5<CR>
+nnoremap <M-J> :resize -5<CR>
+nnoremap <M-H> :vertical resize +5<CR>
+nnoremap <M-L> :vertical resize -5<CR>
 
 " ### running programs ###
 function RunWith(command)
@@ -86,29 +94,31 @@ endfunction
 autocmd FileType python nmap <F5> :call RunWith("python")<cr>
 autocmd FileType python nmap v<F5> :call VRunWith("python")<cr>
 
-function MakeInTerm()
+function CompileAndRunObject(compile, run)
     execute "w"
-    execute "split | term ! make"
+    execute "!" . a:compile
+    execute "split | term " . a:run
 endfunction
-function VMakeInTerm()
+function VCompileAndRunObject(compile, run)
     execute "w"
-    execute "vsplit | term ! make"
+    execute "!" . a:compile
+    execute "vsplit | term " . a:run
 endfunction
 
 if ! file_readable("Makefile") && ! file_readable("MakeFile")
-    autocmd FileType cpp nmap <F5> :call RunWith("clang++ -Wall -Wextra -pedantic -g -std=c++17 -c")<cr>
-    autocmd FileType c nmap <F5> :call RunWith("clang -Wall -Wextra -pedantic -g -std=c17-c")<cr>
-    autocmd FileType go nmap <F5> :call RunWith("go build")<cr>
-    autocmd FileType cpp nmap v<F5> :call VRunWith("clang++ -Wall -Wextra -pedantic -g -std=c++17 -c")<cr>
-    autocmd FileType c nmap v<F5> :call VRunWith("clang -Wall -Wextra -pedantic -g -std=c17-c")<cr>
-    autocmd FileType go nmap v<F5> :call VRunWith("go build")<cr>
+    autocmd FileType cpp nmap <F4> :call RunWith("clang++ -Wall -Wextra -pedantic -g -std=c++17 -c")<cr>
+    autocmd FileType c nmap <F4> :call RunWith("clang -Wall -Wextra -pedantic -g -std=c17 -c")<cr>
+    autocmd FileType go nmap <F4> :call RunWith("go build")<cr>
+    autocmd FileType cpp nmap <F5> :call CompileAndRunObject("clang++ -Wall -Wextra -pedantic -g -std=c++17 *.o", "./a.out")<cr>
+    autocmd FileType c nmap <F5> :call CompileAndRunObject("clang -Wall -Wextra -pedantic -g -std=c17 *.o", "./a.out")<cr>
+    autocmd FileType cpp nmap v<F5> :call VCompileAndRunObject("clang++ -Wall -Wextra -pedantic -g -std=c++17 *.o", "./a.out")<cr>
+    autocmd FileType c nmap v<F5> :call VCompileAndRunObject("clang -Wall -Wextra -pedantic -g -std=c17 *.o", "./a.out")<cr>
+    autocmd FileType go nmap <F5> :call RunWith("go run")<cr>
+    autocmd FileType go nmap v<F5> :call VRunWith("go run")<cr>
 else
-    autocmd FileType cpp nmap <F5> :call MakeInTerm()<cr>
-    autocmd FileType c nmap <F5> :call MakeInTerm()<cr>
-    autocmd FileType go nmap <F5> :call MakeInTerm()<cr>
-    autocmd FileType cpp nmap v<F5> :call VMakeInTerm()<cr>
-    autocmd FileType c nmap v<F5> :call VMakeInTerm()<cr>
-    autocmd FileType go nmap v<F5> :call VMakeInTerm()<cr>
+    autocmd FileType cpp nmap <F5> :make<cr>
+    autocmd FileType c nmap <F5> :make<cr>
+    autocmd FileType go nmap <F5> :make<cr>
 endif
 
 " ### misc ###
@@ -151,12 +161,13 @@ lua require'colorizer'.setup()
 set magic
 set mouse=a " mouse with visual is messy
 set clipboard+=unnamedplus
-set scrolloff=15
+set scrolloff=10
 set history=1000
 set undofile
 set ignorecase smartcase
 set wildignore+=*/tmp*,*.so,*.swp,*.zip
 set matchpairs+=<:>
+let g:AutoPairsFlyMode = 0
 " tabs
 set expandtab
 set autoindent smartindent cindent
