@@ -16,6 +16,8 @@ alias la='exa -la --color=always --git'
 alias todo='nvim $HOME/.TODO.md'
 alias journal='nvim $HOME/Documents/journal/$(date "+%d-%m-%y").md'
 alias fuck='sudo !!'
+alias screenrecord='ffmpeg -video_size 1920x1080 -framerate 30 -f x11grab -i :0.0 -f pulse -ac 2 -i default'
+alias screenrecordcheap='ffmpeg -video_size 1920x1080 -framerate 30 -f x11grab -i :0.0 -f pulse -ac 2 -i default -crf 0 -preset ultrafast'
 
 function paste() {
     local file=${1:-/dev/stdin}
