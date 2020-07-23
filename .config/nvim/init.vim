@@ -115,10 +115,13 @@ if ! file_readable("Makefile") && ! file_readable("MakeFile")
     autocmd FileType c nmap v<F5> :call VCompileAndRunObject("clang -Wall -Wextra -pedantic -g -std=c17 *.o", "./a.out")<cr>
     autocmd FileType go nmap <F5> :call RunWith("go run")<cr>
     autocmd FileType go nmap v<F5> :call VRunWith("go run")<cr>
+    autocmd FileType tex nmap <F5> :call RunWith("pdflatex")<cr>
+    autocmd FileType tex nmap v<F5> :call RunWith("pdflatex")<cr>
 else
     autocmd FileType cpp nmap <F5> :make<cr>
     autocmd FileType c nmap <F5> :make<cr>
     autocmd FileType go nmap <F5> :make<cr>
+    autocmd FileType tex nmap <F5> :make<cr>
 endif
 
 " ### misc ###
@@ -198,6 +201,15 @@ let g:ctrlp_working_path_mode = 'ra'
 " " ### spellchecking ###
 set spelllang=en_gb
 autocmd FileType text,markdown,tex setlocal spell
+
+function! FzfSpellSink(word)
+  exe 'normal! "_ciw'.a:word
+endfunction
+function! FzfSpell()
+  let suggestions = spellsuggest(expand("<cword>"))
+  return fzf#run({'source': suggestions, 'sink': function("FzfSpellSink"), 'down': 10 })
+endfunction
+nnoremap z= :call FzfSpell()<CR>
 
 " ### markdown ###
 let g:vim_markdown_conceal = 0

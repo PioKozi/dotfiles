@@ -23,6 +23,7 @@ import           XMonad.Actions.WindowBringer
 import           XMonad.Layout.BinarySpacePartition
 import           XMonad.Layout.NoBorders
 import           XMonad.Layout.ThreeColumns
+import           XMonad.Layout.TwoPane
 
 import qualified Data.Map                           as M
 import qualified XMonad.StackSet                    as W
@@ -71,7 +72,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- Move focus
     , ((modm,               xK_j     ), windows W.focusDown)
     , ((modm,               xK_k     ), windows W.focusUp  )
-    , ((modm,               xK_Tab   ), windows W.focusDown)
+    , ((mod1Mask,           xK_Tab   ), windows W.focusDown)
     , ((modm,               xK_m     ), windows W.focusMaster  )
 
     -- Swap the focused window and the master window
@@ -145,9 +146,12 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 ------------------------------------------------------------------------
 -- Layouts:
 --
-myLayout = smartBorders tiled ||| smartBorders (Mirror tiled) ||| noBorders Full ||| smartBorders emptyBSP ||| smartBorders (ThreeColMid 1 (2/100) (1/2))
+-- I hate how long this line is but whatever
+myLayout = smartBorders tiled ||| smartBorders twopanes ||| smartBorders (Mirror tiled) ||| noBorders Full ||| smartBorders emptyBSP ||| smartBorders centermaster
   where
      tiled   = Tall nmaster delta ratio
+     twopanes = TwoPane delta ratio
+     centermaster = ThreeColMid nmaster delta ratio
      nmaster = 1
      ratio   = 1/2
      delta   = 2/100
@@ -181,6 +185,14 @@ myStartupHook = do
 
 ------------------------------------------------------------------------
 
+-- myLayoutNames :: String -> String
+-- myLayoutNames s = case s of "Tall"        -> "Tile"
+--                             "TwoPane"     -> "OneSplit"
+--                             "Mirror Tall" -> "BStack"
+--                             "Full"        -> "Monocole"
+--                             "BSP"         -> "BSP"
+--                             "ThreeCol"    -> "ThreeCol"
+
 main = do
     xmproc <- spawnPipe "xmobar /home/piotr/.config/xmobar/xmobar.config"
     xmonad $ docks defaults
@@ -190,8 +202,10 @@ main = do
             {
             ppOutput = \x -> hPutStrLn xmproc x,
             ppCurrent = xmobarColor "#cc241d" "" . wrap "<" ">",
+            ppUrgent = xmobarColor "#d79921" "" . wrap "!" "!",
             ppExtras = [windowCount],
             ppTitle = xmobarColor "#cc241d" "" . shorten 60,
+            -- ppLayout = myLayoutNames,
             ppOrder = \(ws:l:t:ex) -> [ws,l]++ex++[t]
             }
         }
@@ -218,53 +232,3 @@ defaults = def {
         logHook            = myLogHook,
         startupHook        = myStartupHook
     }
-
--- A copy of the default bindings in simple textual tabular format.
-help :: String
-help = unlines ["The default modifier key is 'super'. Default keybindings:",
-    "",
-    "-- launching and killing programs",
-    "mod-Shift-Enter  Launch st",
-    "mod-space        dmenu",
-    "mod-Shift-x      Close/kill the focused window",
-    "mod-c            Rotate through the available layout algorithms",
-    "mod-Shift-c      Reset the layouts on the current workSpace to default",
-    "mod-n            Resize/refresh viewed windows to the correct size",
-    "",
-    "-- move focus up or down the window stack",
-    "mod-Tab        Move focus to the next window",
-    "mod-Shift-Tab  Move focus to the previous window",
-    "mod-j          Move focus to the next window",
-    "mod-k          Move focus to the previous window",
-    "mod-m          Move focus to the master window",
-    "",
-    "-- modifying the window order",
-    "mod-Return   Swap the focused window and the master window",
-    "mod-Shift-j  Swap the focused window with the next window",
-    "mod-Shift-k  Swap the focused window with the previous window",
-    "",
-    "-- resizing the master/slave ratio",
-    "mod-h  Shrink the master area",
-    "mod-l  Expand the master area",
-    "",
-    "-- floating layer support",
-    "mod-t  Push window back into tiling; unfloat and re-tile it",
-    "",
-    "-- increase or decrease number of windows in the master area",
-    "mod-comma  (mod-,)   Increment the number of windows in the master area",
-    "mod-period (mod-.)   Deincrement the number of windows in the master area",
-    "",
-    "-- quit, or restart",
-    "mod-Shift-q  Quit xmonad",
-    "mod-q        Restart xmonad",
-    "mod-[1..9]   Switch to workSpace N",
-    "",
-    "-- Workspaces & screens",
-    "mod-Shift-[1..9]   Move client to workspace N",
-    "mod-{w,e,r}        Switch to physical/Xinerama screens 1, 2, or 3",
-    "mod-Shift-{w,e,r}  Move client to screen 1, 2, or 3",
-    "",
-    "-- Mouse bindings: default actions bound to mouse events",
-    "mod-button1  Set the window to floating mode and move by dragging",
-    "mod-button2  Raise the window to the top of the stack",
-    "mod-button3  Set the window to floating mode and resize by dragging"]
