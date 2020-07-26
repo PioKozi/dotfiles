@@ -18,12 +18,13 @@ import           XMonad.Hooks.DynamicLog
 import           XMonad.Hooks.ManageDocks
 import           XMonad.Hooks.ManageHelpers
 
+import           XMonad.Actions.RotSlaves
 import           XMonad.Actions.WindowBringer
 
 import           XMonad.Layout.BinarySpacePartition
 import           XMonad.Layout.NoBorders
 import           XMonad.Layout.ThreeColumns
-import           XMonad.Layout.TwoPane
+import           XMonad.Layout.TwoPanePersistent
 
 import qualified Data.Map                           as M
 import qualified XMonad.StackSet                    as W
@@ -57,7 +58,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     [ ((modm .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf)
 
     -- launch dmenu
-    , ((modm,               xK_space     ), spawn "dmenu_run -n -p run: -i")
+    , ((modm,               xK_space     ), spawn "dmenu_run -p run: -i")
 
     -- close focused window
     , ((modm .|. shiftMask, xK_x     ), kill)
@@ -81,6 +82,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- Swap windows
     , ((modm .|. shiftMask, xK_j     ), windows W.swapDown  )
     , ((modm .|. shiftMask, xK_k     ), windows W.swapUp    )
+    , ((modm,             xK_Tab     ), rotSlavesUp         )
 
     -- Resize master area
     , ((modm,               xK_h     ), sendMessage Shrink)
@@ -150,7 +152,7 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 myLayout = smartBorders tiled ||| smartBorders twopanes ||| smartBorders (Mirror tiled) ||| noBorders Full ||| smartBorders emptyBSP ||| smartBorders centermaster
   where
      tiled   = Tall nmaster delta ratio
-     twopanes = TwoPane delta ratio
+     twopanes = TwoPanePersistent Nothing delta ratio
      centermaster = ThreeColMid nmaster delta ratio
      nmaster = 1
      ratio   = 1/2
@@ -181,17 +183,18 @@ myStartupHook = do
     spawnOnce "sxhkd &"
     spawnOnce "flameshot &"
     spawnOnce "xbanish &"
+    spawnOnce "redshift &"
     spawnOnce "feh --no-fehbg --bg-fill $HOME/Pictures/wallpapers/gruvbox/garbage_math.png"
 
 ------------------------------------------------------------------------
 
--- myLayoutNames :: String -> String
--- myLayoutNames s = case s of "Tall"        -> "Tile"
---                             "TwoPane"     -> "OneSplit"
---                             "Mirror Tall" -> "BStack"
---                             "Full"        -> "Monocole"
---                             "BSP"         -> "BSP"
---                             "ThreeCol"    -> "ThreeCol"
+myLayoutNames :: String -> String
+myLayoutNames s = case s of "Tall"              -> "[]="
+                            "TwoPanePersistent" -> "[|]"
+                            "Mirror Tall"       -> "TTT"
+                            "Full"              -> "[ ]"
+                            "BSP"               -> "[T:"
+                            "ThreeCol"          -> "|||"
 
 main = do
     xmproc <- spawnPipe "xmobar /home/piotr/.config/xmobar/xmobar.config"
@@ -204,8 +207,8 @@ main = do
             ppCurrent = xmobarColor "#cc241d" "" . wrap "<" ">",
             ppUrgent = xmobarColor "#d79921" "" . wrap "!" "!",
             ppExtras = [windowCount],
-            ppTitle = xmobarColor "#cc241d" "" . shorten 60,
-            -- ppLayout = myLayoutNames,
+            ppTitle = xmobarColor "#cc241d" "" . shorten 70,
+            ppLayout = myLayoutNames,
             ppOrder = \(ws:l:t:ex) -> [ws,l]++ex++[t]
             }
         }
