@@ -18,6 +18,7 @@ import           XMonad.Hooks.DynamicLog
 import           XMonad.Hooks.ManageDocks
 import           XMonad.Hooks.ManageHelpers
 
+import           XMonad.Actions.NoBorders
 import           XMonad.Actions.RotSlaves
 import           XMonad.Actions.WindowBringer
 
@@ -108,6 +109,9 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- Goto window or bring window to workspace via dmenu
     , ((modm .|. shiftMask, xK_g     ), gotoMenu)
     , ((modm .|. shiftMask, xK_b     ), bringMenu)
+
+    -- Toggle border for current window
+    , ((modm             , xK_g),       withFocused toggleBorder)
     ]
     ++
 
