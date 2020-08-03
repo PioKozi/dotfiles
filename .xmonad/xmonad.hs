@@ -153,7 +153,7 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 -- Layouts:
 --
 -- I hate how long this line is but whatever
-myLayout = smartBorders tiled ||| smartBorders twopanes ||| smartBorders (Mirror tiled) ||| noBorders Full ||| smartBorders emptyBSP ||| smartBorders centermaster
+myLayout = smartBorders tiled ||| smartBorders twopanes ||| smartBorders (Mirror tiled) ||| noBorders Full ||| smartBorders centermaster
   where
      tiled   = Tall nmaster delta ratio
      twopanes = TwoPanePersistent Nothing delta ratio
@@ -165,8 +165,7 @@ myLayout = smartBorders tiled ||| smartBorders twopanes ||| smartBorders (Mirror
 ------------------------------------------------------------------------
 -- Window rules:
 myManageHook = composeAll
-    [
-    className =? "MPlayer"        --> doFloat
+    [ className =? "MPlayer"        --> doFloat
     , resource  =? "desktop_window" --> doIgnore
     , resource  =? "kdesktop"       --> doIgnore
     ]
