@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [[ -z "$(pgrep batsignal)" ]]; then
-    batsignal -w 20 -c 5 -d 2 -f 100 -W "BATTERY LOW" -C "BATTERY CRITICAL" -F "BATTERY FULL" -a "battery" -b
+    batsignal -w 20 -c 10 -f 100 -W "BATTERY LOW" -C "BATTERY CRITICAL" -F "BATTERY FULL" -a "battery" -b
 fi
 
 if [[ -z "$(pgrep dunst)" ]]; then
@@ -25,4 +25,4 @@ if [[ -z "$(pgrep xbanish)" ]]; then
 fi
 
 # feh --bg-fill `ls -d $HOME/Pictures/wallpapers/gruvbox/* | shuf -n 1`
-feh --no-fehbg --bg-fill $HOME/Pictures/wallpapers/gruvbox/garbage_math.png
+feh --no-fehbg --bg-fill $HOME/Pictures/wallpapers/gruvbox/linux_user_at_best_buy.png
