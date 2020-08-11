@@ -56,6 +56,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'Yggdroot/indentLine'
     Plug 'ryanoasis/vim-devicons'
     Plug 'djoshea/vim-autoread'
+    " Plug 'junegunn/goyo.vim'
 
 call plug#end()
 
@@ -70,6 +71,7 @@ nmap <leader>s  :noh<CR>
 nmap <leader>c  :cl<CR>
 nmap <leader>e :copen<CR>
 nmap <leader>x :ccl<CR>
+nmap <leader>p :Neoformat<CR>
 
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
@@ -80,6 +82,7 @@ nnoremap <M-K> :resize +5<CR>
 nnoremap <M-J> :resize -5<CR>
 nnoremap <M-H> :vertical resize +5<CR>
 nnoremap <M-L> :vertical resize -5<CR>
+
 
 " ### running programs ###
 function RunWith(command)
@@ -152,6 +155,8 @@ let g:gruvbox_improved_warnings = 1
 let g:gruvbox_invert_selection = 0
 let g:gruvbox_sign_column = 'bg0'
 colo gruvbox
+" let g:goyo_width = "95%"
+" let g:goyo_height = "95%"
 
 " ### indentation lines plugin ###
 let g:indentLine_setColors = 1
@@ -297,4 +302,4 @@ let g:haskell_classic_highlighting = 1    " more traditional highlighting
 " using default indent sizes
 
 " ### neoformat ###
-autocmd BufWritePre * Neoformat
+" autocmd BufWritePre * Neoformat
