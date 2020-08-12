@@ -5,7 +5,7 @@ set $left h
 set $down j
 set $up k
 set $right l
-set $term termite
+set $term kitty
 set $menu dmenu_run | xargs swaymsg exec --
 
 set $bg            #cc241d
@@ -112,6 +112,8 @@ bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
+##fullscreen
+bindsym $mod+f fullscreen
 ## make window floating
 bindsym $mod+Shift+space floating toggle
 ## toggle focus between floating and tiled
@@ -153,5 +155,5 @@ output "*" bg $HOME/Pictures/wallpapers/gruvbox/garbage_math.png fill
 
 # autostart
 exec --no-startup-id "batsignal -w 20 -c 10 -f 100 -W 'BATTERY LOW' -C 'BATTERY CRITICAL' -F 'BATTERY FULL' -a 'battery' -b"
-exec --no-startup-id "dunst &"
-exec --no-startup-id "redshift &"
+exec --no-startup-id "mako"
+exec --no-startup-id "gammastep &"
