@@ -43,8 +43,8 @@ window#waybar {
 }
 
 #battery.charging {
-    color: #ebddb2;
-    background-color: #98971a;
+    color: #98971a;
+    background-color: #1d2021;
 }
 
 @keyframes blink {

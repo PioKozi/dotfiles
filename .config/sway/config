@@ -35,6 +35,9 @@ input * {
 default_border pixel 2
 default_floating_border pixel 2
 
+# hide cursor after time
+seat * hide_cursor 300
+
 # key bindings
 
 ## basic keybinds
