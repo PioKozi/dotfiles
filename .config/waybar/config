@@ -1,0 +1,33 @@
+{
+    "layer" : "bottom",
+    "position" : "top",
+    "modules-left" : ["sway/workspaces", "sway/mode", "sway/window"],
+    "modules-center" : ["clock"],
+    "modules-right" : ["battery", "memory", "cpu"],
+
+    "clock" : {
+        "interval" : 60,
+        "format" : "{:%H:%M | %d-%m}"
+    },
+
+    "battery" : {
+        "bat" : "BAT0",
+        "interval" : 60,
+        "states" : {
+            "warning" : 20,
+            "critical" : 10
+        },
+        "format" : "Batt: {capacity}% {time}",
+        "format-time" : "{H}h {M}min"
+    },
+
+    "memory" : {
+        "interval" : 20,
+        "format" : "| Mem: {percentage}% | "
+    },
+
+    "cpu" : {
+        "interval" : 10,
+        "format" : "Cpu: {}% "
+    }
+}
