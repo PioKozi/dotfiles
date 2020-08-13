@@ -5,6 +5,11 @@
     "modules-center" : ["clock"],
     "modules-right" : ["battery", "memory", "cpu"],
 
+    "sway/window" : {
+        "format" : {},
+        "max-length" : 75
+    },
+
     "clock" : {
         "interval" : 1,
         "format" : "{:%H:%M:%S | %a %d %b}"

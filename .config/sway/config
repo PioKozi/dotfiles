@@ -6,7 +6,7 @@ set $down j
 set $up k
 set $right l
 set $term kitty
-set $menu dmenu_run | xargs swaymsg exec --
+set $menu rofi -show drun -matching fuzzy | xargs swaymsg exec --
 
 set $bg            #cc241d
 set $bg-inactive   #a89984
