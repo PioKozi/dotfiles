@@ -32,100 +32,84 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'chaoren/vim-wordmotion'
     Plug 'jiangmiao/auto-pairs'
     Plug 'alvan/vim-closetag', { 'for': ['html', 'xml'] }
-    " Plug 'SirVer/ultisnips'
+    Plug 'SirVer/ultisnips'
     Plug 'honza/vim-snippets'
     Plug 'michaeljsmith/vim-indent-object'
+    Plug 'AndrewRadev/splitjoin.vim'
 
-    " the BIG things
-    Plug 'neoclide/coc.nvim', {'branch': 'release'}
-    Plug 'sheerun/vim-polyglot'
-
-    " programming + writing (most are in coc.nvim)
-    Plug 'plasticboy/vim-markdown'
-    Plug 'lervag/vimtex'
-    Plug 'vim-python/python-syntax'
-    Plug 'zchee/deoplete-jedi'
-    Plug 'neovimhaskell/haskell-vim'
-    Plug 'alx741/vim-stylishask'
-    " Plug 'fatih/vim-go'
-    Plug 'jackguo380/vim-lsp-cxx-highlight'
     Plug 'sbdchd/neoformat'
-    Plug 'vimlab/split-term.vim'
 
-    " other nice little things that aren't important
-    Plug 'Yggdroot/indentLine'
-    Plug 'ryanoasis/vim-devicons'
-    Plug 'djoshea/vim-autoread'
-    " Plug 'junegunn/goyo.vim'
+    " Golang
+    Plug 'fatih/vim-go', {'do': ':GoInstallBinaries'}
+    "C++
+    Plug 'octol/vim-cpp-enhanced-highlight'
+    " LaTeX
+    Plug 'lervag/vimtex'
+    Plug 'matze/vim-tex-fold'
+
+    " ALE
+    Plug 'dense-analysis/ale'
+
+    " completion
+    Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
+    Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
+    Plug 'deoplete-plugins/deoplete-jedi'
+    " Plug 'Shougo/deoplete-clangx'
+    Plug 'deoplete-plugins/deoplete-clang'
+    Plug 'deoplete-plugins/deoplete-go', {'do': 'make'}
+    Plug 'Shougo/neco-vim'
 
 call plug#end()
 
 " ### shortcuts ###
-let mapleader = " "
+let mapleader=" "
 
-" nerdtree
-nmap <leader>t :Term<CR>
-nmap <leader>v :VTerm<CR>
-nmap <leader>f :NERDTreeToggle<CR>
-nmap <leader>s  :noh<CR>
-nmap <leader>c  :cl<CR>
-nmap <leader>e :copen<CR>
-nmap <leader>x :ccl<CR>
-nmap <leader>p :Neoformat<CR>
+nnoremap <silent>nt :NERDTreeToggle<CR>
+nnoremap <leader>s :noh<CR>
 
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
-
-nnoremap <M-K> :resize +5<CR>
-nnoremap <M-J> :resize -5<CR>
-nnoremap <M-H> :vertical resize +5<CR>
-nnoremap <M-L> :vertical resize -5<CR>
-
-
-" ### running programs ###
-function RunWith(command)
-    execute "w"
-    execute "split | term " . a:command . " " . expand("%")
+nnoremap <leader>n :cnext<CR>
+nnoremap <leader>p :cprevious<CR>
+nnoremap <leader>a :cclose<CR>
+function! s:build_go_files()
+  let l:file = expand('%')
+  if l:file =~# '^\f\+_test\.go$'
+    call go#test#Test(0, 1)
+  elseif l:file =~# '^\f\+\.go$'
+    call go#cmd#Build(0)
+  endif
 endfunction
-function VRunWith(command)
-    execute "w"
-    execute "vsplit | term " . a:command . " " . expand("%")
-endfunction
+autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
+autocmd FileType go nmap <leader>r  <Plug>(go-run)
+autocmd FileType go nmap <leader>t  <Plug>(go-test)
+autocmd FileType go nmap <Leader>c <Plug>(go-coverage-toggle)
+autocmd FileType go nmap <Leader>i <Plug>(go-info)
+"
+" More natural movement when lines wrap
+noremap j gj
+noremap k gk
+nnoremap gj 5j
+nnoremap gk 5k
 
-autocmd FileType python nmap <F5> :call RunWith("python")<cr>
-autocmd FileType python nmap v<F5> :call VRunWith("python")<cr>
-
-function CompileAndRunObject(compile, run)
-    execute "w"
-    execute "!" . a:compile
-    execute "split | term " . a:run
-endfunction
-function VCompileAndRunObject(compile, run)
-    execute "w"
-    execute "!" . a:compile
-    execute "vsplit | term " . a:run
-endfunction
-
-if ! file_readable("Makefile") && ! file_readable("MakeFile")
-    autocmd FileType cpp nmap <F4> :call RunWith("clang++ -Wall -Wextra -pedantic -g -std=c++17 -c")<cr>
-    autocmd FileType c nmap <F4> :call RunWith("clang -Wall -Wextra -pedantic -g -std=c17 -c")<cr>
-    autocmd FileType go nmap <F4> :call RunWith("go build")<cr>
-    autocmd FileType cpp nmap <F5> :call CompileAndRunObject("clang++ -Wall -Wextra -pedantic -g -std=c++17 *.o", "./a.out")<cr>
-    autocmd FileType c nmap <F5> :call CompileAndRunObject("clang -Wall -Wextra -pedantic -g -std=c17 *.o", "./a.out")<cr>
-    autocmd FileType cpp nmap v<F5> :call VCompileAndRunObject("clang++ -Wall -Wextra -pedantic -g -std=c++17 *.o", "./a.out")<cr>
-    autocmd FileType c nmap v<F5> :call VCompileAndRunObject("clang -Wall -Wextra -pedantic -g -std=c17 *.o", "./a.out")<cr>
-    autocmd FileType go nmap <F5> :call RunWith("go run")<cr>
-    autocmd FileType go nmap v<F5> :call VRunWith("go run")<cr>
-    autocmd FileType tex nmap <F5> :call RunWith("pdflatex")<cr>
-    autocmd FileType tex nmap v<F5> :call RunWith("pdflatex")<cr>
-else
-    autocmd FileType cpp nmap <F5> :make<cr>
-    autocmd FileType c nmap <F5> :make<cr>
-    autocmd FileType go nmap <F5> :make<cr>
-    autocmd FileType tex nmap <F5> :make<cr>
-endif
+" ### behaviour ###
+set autowrite
+set magic
+set mouse=a " mouse with visual is messy
+set clipboard+=unnamedplus
+set scrolloff=10
+set history=1000
+set undofile
+set ignorecase smartcase
+set wildignore+=*/tmp*,*.so,*.swp,*.zip
+set matchpairs+=<:>
+let g:AutoPairsFlyMode = 0
+" tabs
+set expandtab
+set cindent
+set shiftwidth=4
+set softtabstop=4
+set tabstop=4
+" splits
+set splitright splitbelow 
 
 " ### misc ###
 set number relativenumber
@@ -134,9 +118,9 @@ syntax enable
 filetype plugin indent on
 syntax on
 set cursorline
-set shortmess=IatO
+set shortmess=IatOc
 set textwidth=80
-set updatetime=100
+set updatetime=50
 autocmd TermOpen * startinsert
 
 " ### appearance ###
@@ -155,151 +139,73 @@ let g:gruvbox_improved_warnings = 1
 let g:gruvbox_invert_selection = 0
 let g:gruvbox_sign_column = 'bg0'
 colo gruvbox
-" let g:goyo_width = "95%"
-" let g:goyo_height = "95%"
 
-" ### indentation lines plugin ###
-let g:indentLine_setColors = 1
-let g:indentLine_char_list = ['|', '¦', '┆', '┊']
-let g:indentLine_conceallevel = 2
-
-lua require'colorizer'.setup()
-
-" ### behaviour ###
-set magic
-set mouse=a " mouse with visual is messy
-set clipboard+=unnamedplus
-set scrolloff=10
-set history=1000
-set undofile
-set ignorecase smartcase
-set wildignore+=*/tmp*,*.so,*.swp,*.zip
-set matchpairs+=<:>
-let g:AutoPairsFlyMode = 0
-" tabs
-set expandtab
-set autoindent smartindent cindent
-set shiftwidth=4
-set softtabstop=4
-set tabstop=4
-" splits
-set splitright splitbelow 
-
-" ### airline ####
-let g:airline#extensions#tabline#enabled = 1
+let g:airline_theme = "gruvbox"
 let g:airline_powerline_fonts = 1
-let g:airline#extensions#coc#enabled = 1
-let g:airline_theme='base16_vim'
+let g:airline#extensions#tabline#enabled = 1
 
-" ### wordmotion ###
-let g:wordmotion_spaces = '_-./\#'
-nmap dw de
-nmap cw ce
-nmap dW dE
-nmap cW cE
+" ### deoplete ###
+let g:deoplete#enable_at_startup = 1
+" deoplete tab-complete
+inoremap <expr><tab> pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><s-tab> pumvisible() ? "\<C-p>" : "\<TAB>"
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
-" ### ctrlp ###
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_working_path_mode = 'ra'
+" ### ultisnips ### 
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-n>"
+let g:UltiSnipsJumpBackwardTrigger="<c-p>"
+let g:UltiSnipsEditSplit="vertical"
 
-" " ### spellchecking ###
-set spelllang=en_gb
-autocmd FileType text,markdown,tex setlocal spell
-
-function! FzfSpellSink(word)
-  exe 'normal! "_ciw'.a:word
-endfunction
-function! FzfSpell()
-  let suggestions = spellsuggest(expand("<cword>"))
-  return fzf#run({'source': suggestions, 'sink': function("FzfSpellSink"), 'down': 10 })
-endfunction
-nnoremap z= :call FzfSpell()<CR>
-
-" ### markdown ###
-let g:vim_markdown_conceal = 0
-let g:vim_markdown_conceal_code_blocks = 0
-let g:vim_markdown_folding_disabled = 1
-let g:tex_conceal = ""
-let g:vim_markdown_math = 1
-let g:vim_markdown_strikethrough = 1
-let g:vim_markdown_toml_frontmatter = 1
-
-" ### latex ###
-let g:vimtex_compiler_progname = 'nvr'
+" ### LaTeX ###
 let g:tex_flavor = 'latex'
+let g:tex_conceal = ''
+let g:vimtex_fold_manual = 1
+let g:vimtex_compiler_progname = 'pdflatex'
+let g:vimtex_view_method = 'zathura'
 
-" ### coc ###
-set hidden
-set cmdheight=2 " space for displaying messages
-set updatetime=300
+" ### vim-go ####
+let g:go_fmt_command = "goimports"
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_generate_tags = 1
+let g:go_completion_enabled = 1
+let g:go_test_show_name = 1
+let g:go_info_mode = "guru"
+let g:go_list_height = 10
+let g:go_diagnostics_enabled = 1
+let g:go_template_autocreate = 0
+let g:go_auto_type_info = 1
+let g:go_auto_sameids = 0
 
-call coc#add_extension(
-    \ 'coc-marketplace',
-    \ 'coc-snippets',
-    \ 'coc-json',
-    \ 'coc-clangd',
-    \ 'coc-go',
-    \ 'coc-python',
-    \ 'coc-sh',
-    \ 'coc-vimtex', 'coc-markdownlint',
-    \ 'coc-html', 'coc-css', 'coc-xml',
-    \ 'coc-vimlsp',
-    \ 'coc-word',
-    \ )
+" ### C++ highlighting ###
+let g:cpp_class_scope_highlight = 1
+let g:cpp_member_variable_highlight = 1
+let g:cpp_class_decl_highlight = 1
+let g:cpp_posix_standard = 1
+let g:cpp_experimental_template_highlight = 1
+let g:cpp_concepts_highlight = 1
+let g:cpp_no_function_highlight = 1
+let c_no_curly_error=1
 
-" Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-
-" ### snippets ###
-" let g:UltiSnipsExpandTrigger="<tab>"
-" let g:UltiSnipsJumpForwardTrigger="<c-x>"
-" let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-
-" coc-snippets
-imap <C-l> <Plug>(coc-snippets-expand)
-vmap <C-j> <Plug>(coc-snippets-select)
-let g:coc_snippet_next = '<c-j>'
-let g:coc_snippet_prev = '<c-k>'
-imap <C-j> <Plug>(coc-snippets-expand-jump)
-
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-let g:coc_snippet_next = '<tab>'
-
-" ### quick-scope ###
-let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
-highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
-highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
-
-" ### easy-align ###
-xmap ga <Plug>(EasyAlign)
-nmap ga <Plug>(EasyAlign)
-
-" ### haskell ###
-let g:stylishask_on_save = 1
-
-let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
-let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
-let g:haskell_enable_arrowsyntax = 1      " to enable highlighting of `proc`
-let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
-let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
-let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
-let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
-let g:haskell_classic_highlighting = 1    " more traditional highlighting
-" using default indent sizes
-
-" ### neoformat ###
-" autocmd BufWritePre * Neoformat
+" ### ALE ###
+let g:ale_completion_enabled = 0
+let g:ale_completion_autoimport = 0
+let g:ale_set_balloons = 1
+let g:ale_set_preview= 1
+let g:ale_hover_to_preview=1
+let g:ale_linters = {}
+let g:ale_linters.python = ['black', 'flake8']
+let g:ale_linters.latex = ['texlab']
+let g:ale_linters.c = ['clang']
+let g:ale_linters.cpp = ['clang']
+" no go linters, instead just vim-go
+let g:ale_fixers = {'python': ['black']}
+let g:ale_fix_on_save = 1
+let g:ale_sign_column_always = 1
