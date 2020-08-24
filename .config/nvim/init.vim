@@ -46,6 +46,10 @@ call plug#begin('~/.config/nvim/plugged')
     " LaTeX
     Plug 'lervag/vimtex'
     Plug 'matze/vim-tex-fold'
+    " Markdown
+    Plug 'plasticboy/vim-markdown'
+    Plug 'vim-pandoc/vim-pandoc'
+    Plug 'vim-pandoc/vim-pandoc-syntax'
 
     " ALE
     Plug 'dense-analysis/ale'
@@ -123,6 +127,13 @@ set textwidth=80
 set updatetime=50
 autocmd TermOpen * startinsert
 
+" ### quick-scope colours ###
+augroup qs_colors
+  autocmd!
+  autocmd ColorScheme * highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
+  autocmd ColorScheme * highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
+augroup END
+
 " ### appearance ###
 set termguicolors
 let g:gruvbox_bold = 1
@@ -165,6 +176,18 @@ let g:vimtex_fold_manual = 1
 let g:vimtex_compiler_progname = 'pdflatex'
 let g:vimtex_view_method = 'zathura'
 
+" ### markdown ###
+let g:vim_markdown_folding_disabled = 0
+let g:vim_markdown_folding_style_pythonic = 1
+let g:vim_markdown_conceal = 0
+let g:tex_conceal = ""
+let g:vim_markdown_math = 1
+let g:vim_markdown_conceal_code_blocks = 0
+let g:vim_markdown_math = 1
+let g:vim_markdown_frontmatter = 1
+let g:vim_markdown_strikethrough = 1
+let g:vim_markdown_new_list_item_indent = 2
+
 " ### vim-go ####
 let g:go_fmt_command = "goimports"
 let g:go_highlight_types = 1
@@ -203,6 +226,7 @@ let g:ale_hover_to_preview=1
 let g:ale_linters = {}
 let g:ale_linters.python = ['black', 'flake8']
 let g:ale_linters.latex = ['texlab']
+let g:ale_linters.markdown = ['prettier']
 let g:ale_linters.c = ['clang']
 let g:ale_linters.cpp = ['clang']
 " no go linters, instead just vim-go
