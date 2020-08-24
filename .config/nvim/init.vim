@@ -54,9 +54,9 @@ call plug#begin('~/.config/nvim/plugged')
     " ALE
     Plug 'dense-analysis/ale'
 
-    " completion
+    " deoplete
     Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
-    Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
+    " Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
     Plug 'deoplete-plugins/deoplete-jedi'
     " Plug 'Shougo/deoplete-clangx'
     Plug 'deoplete-plugins/deoplete-clang'
@@ -93,6 +93,11 @@ noremap j gj
 noremap k gk
 nnoremap gj 5j
 nnoremap gk 5k
+" Because of vim-wordmotion
+nmap dw de
+nmap cw ce
+nmap dW dE
+nmap cW cE
 
 " ### behaviour ###
 set autowrite
@@ -109,7 +114,7 @@ let g:AutoPairsFlyMode = 0
 " tabs
 set expandtab
 set cindent
-set shiftwidth=4
+set shiftwidth=2
 set softtabstop=4
 set tabstop=4
 " splits
@@ -124,8 +129,23 @@ syntax on
 set cursorline
 set shortmess=IatOc
 set textwidth=80
+set spelllang=en_gb
+set spellsuggest="best"
 set updatetime=50
 autocmd TermOpen * startinsert
+
+" ### spellcheck ###
+
+" " ### spellchecking ###
+autocmd FileType text,markdown,tex setlocal spell
+function! FzfSpellSink(word)
+  exe 'normal! "_ciw'.a:word
+endfunction
+function! FzfSpell()
+  let suggestions = spellsuggest(expand("<cword>"))
+  return fzf#run({'source': suggestions, 'sink': function("FzfSpellSink"), 'down': 10 })
+endfunction
+nnoremap z= :call FzfSpell()<CR>
 
 " ### quick-scope colours ###
 augroup qs_colors
@@ -151,7 +171,7 @@ let g:gruvbox_invert_selection = 0
 let g:gruvbox_sign_column = 'bg0'
 colo gruvbox
 
-let g:airline_theme = "gruvbox"
+let g:airline_theme = "base16_vim"
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 
@@ -188,7 +208,7 @@ let g:vim_markdown_frontmatter = 1
 let g:vim_markdown_strikethrough = 1
 let g:vim_markdown_new_list_item_indent = 2
 
-" ### vim-go ####
+" ### Golang ####
 let g:go_fmt_command = "goimports"
 let g:go_highlight_types = 1
 let g:go_highlight_fields = 1
@@ -206,6 +226,7 @@ let g:go_diagnostics_enabled = 1
 let g:go_template_autocreate = 0
 let g:go_auto_type_info = 1
 let g:go_auto_sameids = 0
+
 
 " ### C++ highlighting ###
 let g:cpp_class_scope_highlight = 1
