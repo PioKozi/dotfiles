@@ -16,10 +16,23 @@ alias journal='$HOME/.scripts/journal.sh'
 eval $(thefuck --alias)
 
 function paste() {
-    local file=${1:-/dev/stdin}
-    curl --data-binary @${file} https://paste.rs
+  local file=${1:-/dev/stdin}
+  curl --data-binary @${file} https://paste.rs
 }
-
+function weatherreport() {
+  if [[ $1 != "short" ]] {
+    curl "wttr.in/London"
+  } else {
+    curl "wttr.in/London?format=4"
+  }
+}
+# Codi
+# Usage: codi [filetype] [filename]
+codi() {
+  local syntax="${1:-python}"
+  shift
+  nvim -c "Codi $syntax" "$@"
+}
 # aliases for the kitty terminal
 if [[ $TERM == "xterm-kitty" ]]; then
     alias ssh='kitty +kitten ssh'

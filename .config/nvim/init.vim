@@ -1,21 +1,23 @@
 call plug#begin('~/.config/nvim/plugged')
 
     " For appearance
-    Plug 'morhetz/gruvbox'    
+    Plug 'morhetz/gruvbox'
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
+    Plug 'ryanoasis/vim-devicons'
 
     " git integration
     Plug 'airblade/vim-gitgutter'
     Plug 'tpope/vim-fugitive'
     Plug 'rbong/vim-flog'
 
-    " finding files
+    " navigation
     Plug 'scrooloose/nerdtree'
     Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-    Plug 'xuyuanp/nerdtree-git-plugin'
+    " Plug 'xuyuanp/nerdtree-git-plugin'
     Plug 'junegunn/fzf', {'do': { -> fzf#install() }}
     Plug 'ctrlpvim/ctrlp.vim'
+    Plug 'majutsushi/tagbar'
 
     " colours/highlighting
     Plug 'norcalli/nvim-colorizer.lua'
@@ -36,13 +38,16 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'honza/vim-snippets'
     Plug 'michaeljsmith/vim-indent-object'
     Plug 'AndrewRadev/splitjoin.vim'
+    Plug 'dkarter/bullets.vim'
+    Plug 'metakirby5/codi.vim'
 
     Plug 'sbdchd/neoformat'
+    Plug 'sheerun/vim-polyglot'
 
     " Golang
     Plug 'fatih/vim-go', {'do': ':GoInstallBinaries'}
     "C++
-    Plug 'octol/vim-cpp-enhanced-highlight'
+    " Plug 'octol/vim-cpp-enhanced-highlight'
     " LaTeX
     Plug 'lervag/vimtex'
     Plug 'matze/vim-tex-fold'
@@ -57,18 +62,20 @@ call plug#begin('~/.config/nvim/plugged')
     " deoplete
     Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
     " Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
-    Plug 'deoplete-plugins/deoplete-jedi'
-    " Plug 'Shougo/deoplete-clangx'
-    Plug 'deoplete-plugins/deoplete-clang'
-    Plug 'deoplete-plugins/deoplete-go', {'do': 'make'}
+    Plug 'deoplete-plugins/deoplete-jedi' " Python
+    Plug 'Shougo/deoplete-clangx'
+    " Plug 'deoplete-plugins/deoplete-clang' " C/C++
+    Plug 'deoplete-plugins/deoplete-go', {'do': 'make'} " Go
     Plug 'Shougo/neco-vim'
 
 call plug#end()
 
 " ### shortcuts ###
+nmap <F1> :NERDTreeToggle<CR>
+nmap <F8> :TagbarToggle<CR>
+
 let mapleader=" "
 
-nnoremap <silent>nt :NERDTreeToggle<CR>
 nnoremap <leader>s :noh<CR>
 
 nnoremap <leader>n :cnext<CR>
@@ -114,7 +121,7 @@ let g:AutoPairsFlyMode = 0
 " tabs
 set expandtab
 set cindent
-set shiftwidth=2
+set shiftwidth=4
 set softtabstop=4
 set tabstop=4
 " splits
@@ -153,6 +160,7 @@ augroup qs_colors
   autocmd ColorScheme * highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
   autocmd ColorScheme * highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
 augroup END
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
 " ### appearance ###
 set termguicolors
@@ -207,6 +215,15 @@ let g:vim_markdown_math = 1
 let g:vim_markdown_frontmatter = 1
 let g:vim_markdown_strikethrough = 1
 let g:vim_markdown_new_list_item_indent = 2
+
+" ### Bullets.vim ###
+" Bullets.vim
+let g:bullets_enabled_file_types = [
+    \ 'markdown',
+    \ 'text',
+    \ 'gitcommit',
+    \ 'scratch'
+    \]
 
 " ### Golang ####
 let g:go_fmt_command = "goimports"
