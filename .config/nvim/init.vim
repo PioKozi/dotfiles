@@ -5,6 +5,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     Plug 'ryanoasis/vim-devicons'
+    Plug 'luochen1990/rainbow'
 
     " git integration
     Plug 'airblade/vim-gitgutter'
@@ -14,14 +15,16 @@ call plug#begin('~/.config/nvim/plugged')
     " navigation
     Plug 'scrooloose/nerdtree'
     Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+    Plug 'vifm/vifm.vim'
     " Plug 'xuyuanp/nerdtree-git-plugin'
     Plug 'junegunn/fzf', {'do': { -> fzf#install() }}
     Plug 'ctrlpvim/ctrlp.vim'
+    Plug 'mhinz/vim-grepper'
     Plug 'majutsushi/tagbar'
+    Plug 'liuchengxu/vista.vim'
 
     " colours/highlighting
     Plug 'norcalli/nvim-colorizer.lua'
-    Plug 'luochen1990/rainbow'
 
     " quality of textediting
     Plug 'tpope/vim-surround'
@@ -48,6 +51,8 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'fatih/vim-go', {'do': ':GoInstallBinaries'}
     "C++
     " Plug 'octol/vim-cpp-enhanced-highlight'
+    " Haskell
+    Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
     " LaTeX
     Plug 'lervag/vimtex'
     Plug 'matze/vim-tex-fold'
@@ -64,19 +69,23 @@ call plug#begin('~/.config/nvim/plugged')
     " Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
     Plug 'deoplete-plugins/deoplete-jedi' " Python
     Plug 'Shougo/deoplete-clangx'
-    " Plug 'deoplete-plugins/deoplete-clang' " C/C++
-    Plug 'deoplete-plugins/deoplete-go', {'do': 'make'} " Go
+    Plug 'deoplete-plugins/deoplete-clang' " C/C++
+    " Plug 'deoplete-plugins/deoplete-go', {'do': 'make'} " Go
     Plug 'Shougo/neco-vim'
 
 call plug#end()
 
 " ### shortcuts ###
 nmap <F1> :NERDTreeToggle<CR>
+nmap <F2> :Neoformat<CR>
 nmap <F8> :TagbarToggle<CR>
 
 let mapleader=" "
 
 nnoremap <leader>s :noh<CR>
+nnoremap <leader>rt :RainbowToggle<CR>
+nnoremap <leader>vf :Vifm<CR>
+nnoremap <leader>ad :ALEDetail<CR>
 
 nnoremap <leader>n :cnext<CR>
 nnoremap <leader>p :cprevious<CR>
@@ -135,9 +144,7 @@ filetype plugin indent on
 syntax on
 set cursorline
 set shortmess=IatOc
-set textwidth=80
 set spelllang=en_gb
-set spellsuggest="best"
 set updatetime=50
 autocmd TermOpen * startinsert
 
@@ -178,10 +185,12 @@ let g:gruvbox_improved_warnings = 1
 let g:gruvbox_invert_selection = 0
 let g:gruvbox_sign_column = 'bg0'
 colo gruvbox
+let g:rainbow_active = 1
 
 let g:airline_theme = "base16_vim"
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#ale#enabled = 1
 
 " ### deoplete ###
 let g:deoplete#enable_at_startup = 1
@@ -202,7 +211,6 @@ let g:tex_flavor = 'latex'
 let g:tex_conceal = ''
 let g:vimtex_fold_manual = 1
 let g:vimtex_compiler_progname = 'pdflatex'
-let g:vimtex_view_method = 'zathura'
 
 " ### markdown ###
 let g:vim_markdown_folding_disabled = 0
@@ -215,6 +223,11 @@ let g:vim_markdown_math = 1
 let g:vim_markdown_frontmatter = 1
 let g:vim_markdown_strikethrough = 1
 let g:vim_markdown_new_list_item_indent = 2
+let g:pandoc#folding#fdc = 0
+let g:pandoc#formatting#textwidth = 70
+let g:pandoc#formatting#mode = "hA"
+let g:pandoc#formatting#smart_autoformat_on_cursormoved = 1
+autocmd Filetype markdown set textwidth=70
 
 " ### Bullets.vim ###
 " Bullets.vim
@@ -262,12 +275,19 @@ let g:ale_set_balloons = 1
 let g:ale_set_preview= 1
 let g:ale_hover_to_preview=1
 let g:ale_linters = {}
-let g:ale_linters.python = ['black', 'flake8']
-let g:ale_linters.latex = ['texlab']
-let g:ale_linters.markdown = ['prettier']
+let g:ale_linters.bash = ['shellcheck']
 let g:ale_linters.c = ['clang']
 let g:ale_linters.cpp = ['clang']
+let g:ale_linters.haskell = ['hslint']
+let g:ale_linters.latex = ['texlab']
+let g:ale_linters.markdown = ['prettier']
+let g:ale_linters.python = ['black', 'flake8']
 " no go linters, instead just vim-go
-let g:ale_fixers = {'python': ['black']}
+let g:ale_fixers = {}
+let g:ale_fixers.bash = ['shfmt']
+let g:ale_fixers.haskell = ['stylish-haskell']
+let g:ale_fixers.python = ['black']
+let g:ale_fixers.cpp = ['clang-format']
+let g:ale_fixers.c = ['clang-format']
 let g:ale_fix_on_save = 1
 let g:ale_sign_column_always = 1
