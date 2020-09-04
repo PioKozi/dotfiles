@@ -43,6 +43,13 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'metakirby5/codi.vim'
     Plug 'sbdchd/neoformat'
 
+    " LaTeX
+    Plug 'lervag/vimtex'
+    " Markdown
+    Plug 'plasticboy/vim-markdown'
+    Plug 'vim-pandoc/vim-pandoc'
+    Plug 'vim-pandoc/vim-pandoc-syntax'
+
     " Deoplete
     Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
 
@@ -155,6 +162,29 @@ let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#ale#enabled = 1
 
+" ### LaTeX ###
+let g:tex_flavor = 'latex'
+let g:tex_conceal = ''
+let g:vimtex_fold_manual = 1
+let g:vimtex_compiler_progname = 'pdflatex'
+
+" ### markdown ###
+let g:vim_markdown_folding_disabled = 0
+let g:vim_markdown_folding_style_pythonic = 1
+let g:vim_markdown_conceal = 0
+let g:tex_conceal = ""
+let g:vim_markdown_math = 1
+let g:vim_markdown_conceal_code_blocks = 0
+let g:vim_markdown_math = 1
+let g:vim_markdown_frontmatter = 1
+let g:vim_markdown_strikethrough = 1
+let g:vim_markdown_new_list_item_indent = 2
+let g:pandoc#folding#fdc = 0
+let g:pandoc#formatting#textwidth = 70
+let g:pandoc#formatting#mode = "hA"
+let g:pandoc#formatting#smart_autoformat_on_cursormoved = 1
+autocmd Filetype markdown set textwidth=70
+
 " ### LSP ###
 set hidden
 
@@ -164,8 +194,8 @@ let g:LanguageClient_serverCommands = {
     \ 'cpp' : ['/usr/bin/ccls'],
     \ 'c' : ['/usr/bin/ccls'],
     \ 'sh' : ['/usr/bin/bash-language-server','start'],
-    \ 'haskell': ['haskell-language-server-wrapper', '--lsp'],
-    \ 'vim' : ['vim-language-server']
+    \ 'haskell': ['/usr/bin/haskell-language-server-wrapper', '--lsp'],
+    \ 'vim' : ['/usr/bin/vim-language-server'],
     \ }
 
 function SetLSPShortcuts()
@@ -182,7 +212,7 @@ function SetLSPShortcuts()
 endfunction()
 augroup LSP
   autocmd!
-  autocmd FileType python,cpp,c,go,sh,hs,vim call SetLSPShortcuts()
+  autocmd FileType python,cpp,c,go,sh,haskell,vim call SetLSPShortcuts()
 augroup END
 
 " ### Deoplete ###
