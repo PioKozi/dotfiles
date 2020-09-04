@@ -21,7 +21,6 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'ctrlpvim/ctrlp.vim'
     Plug 'mhinz/vim-grepper'
     Plug 'majutsushi/tagbar'
-    Plug 'liuchengxu/vista.vim'
 
     " colours/highlighting
     Plug 'norcalli/nvim-colorizer.lua'
@@ -41,37 +40,16 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'honza/vim-snippets'
     Plug 'michaeljsmith/vim-indent-object'
     Plug 'AndrewRadev/splitjoin.vim'
-    Plug 'dkarter/bullets.vim'
     Plug 'metakirby5/codi.vim'
-
     Plug 'sbdchd/neoformat'
-    Plug 'sheerun/vim-polyglot'
 
-    " Golang
-    Plug 'fatih/vim-go', {'do': ':GoInstallBinaries'}
-    "C++
-    " Plug 'octol/vim-cpp-enhanced-highlight'
-    " Haskell
-    Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
-    " LaTeX
-    Plug 'lervag/vimtex'
-    Plug 'matze/vim-tex-fold'
-    " Markdown
-    Plug 'plasticboy/vim-markdown'
-    Plug 'vim-pandoc/vim-pandoc'
-    Plug 'vim-pandoc/vim-pandoc-syntax'
-
-    " ALE
-    Plug 'dense-analysis/ale'
-
-    " deoplete
+    " Deoplete
     Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
-    " Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
-    Plug 'deoplete-plugins/deoplete-jedi' " Python
-    Plug 'Shougo/deoplete-clangx'
-    Plug 'deoplete-plugins/deoplete-clang' " C/C++
-    " Plug 'deoplete-plugins/deoplete-go', {'do': 'make'} " Go
-    Plug 'Shougo/neco-vim'
+
+    Plug 'autozimu/LanguageClient-neovim', {
+                \ 'branch': 'next',
+                \ 'do': 'bash install.sh',
+                \ }
 
 call plug#end()
 
@@ -85,25 +63,10 @@ let mapleader=" "
 nnoremap <leader>s :noh<CR>
 nnoremap <leader>rt :RainbowToggle<CR>
 nnoremap <leader>vf :Vifm<CR>
-nnoremap <leader>ad :ALEDetail<CR>
 
 nnoremap <leader>n :cnext<CR>
 nnoremap <leader>p :cprevious<CR>
 nnoremap <leader>a :cclose<CR>
-function! s:build_go_files()
-  let l:file = expand('%')
-  if l:file =~# '^\f\+_test\.go$'
-    call go#test#Test(0, 1)
-  elseif l:file =~# '^\f\+\.go$'
-    call go#cmd#Build(0)
-  endif
-endfunction
-autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
-autocmd FileType go nmap <leader>r  <Plug>(go-run)
-autocmd FileType go nmap <leader>t  <Plug>(go-test)
-autocmd FileType go nmap <Leader>c <Plug>(go-coverage-toggle)
-autocmd FileType go nmap <Leader>i <Plug>(go-info)
-"
 " More natural movement when lines wrap
 noremap j gj
 noremap k gk
@@ -185,109 +148,45 @@ let g:gruvbox_improved_warnings = 1
 let g:gruvbox_invert_selection = 0
 let g:gruvbox_sign_column = 'bg0'
 colo gruvbox
-let g:rainbow_active = 1
+let g:rainbow_active = 0
 
 let g:airline_theme = "base16_vim"
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#ale#enabled = 1
 
-" ### deoplete ###
+" ### LSP ###
+set hidden
+
+let g:LanguageClient_serverCommands = {
+    \ 'python' : ['/usr/bin/pyls'],
+    \ 'go' : ['/home/piotr/go/bin/gopls'],
+    \ 'cpp' : ['/usr/bin/ccls'],
+    \ 'c' : ['/usr/bin/ccls'],
+    \ 'sh' : ['/usr/bin/bash-language-server','start'],
+    \ 'haskell': ['haskell-language-server-wrapper', '--lsp'],
+    \ 'vim' : ['vim-language-server']
+    \ }
+
+function SetLSPShortcuts()
+  nnoremap <leader>ld :call LanguageClient#textDocument_definition()<CR>
+  nnoremap <leader>lr :call LanguageClient#textDocument_rename()<CR>
+  nnoremap <leader>lf :call LanguageClient#textDocument_formatting()<CR>
+  nnoremap <leader>lt :call LanguageClient#textDocument_typeDefinition()<CR>
+  nnoremap <leader>lx :call LanguageClient#textDocument_references()<CR>
+  nnoremap <leader>la :call LanguageClient_workspace_applyEdit()<CR>
+  nnoremap <leader>lc :call LanguageClient#textDocument_completion()<CR>
+  nnoremap <leader>lh :call LanguageClient#textDocument_hover()<CR>
+  nnoremap <leader>ls :call LanguageClient_textDocument_documentSymbol()<CR>
+  nnoremap <leader>lm :call LanguageClient_contextMenu()<CR>
+endfunction()
+augroup LSP
+  autocmd!
+  autocmd FileType python,cpp,c,go,sh,hs,vim call SetLSPShortcuts()
+augroup END
+
+" ### Deoplete ###
 let g:deoplete#enable_at_startup = 1
-" deoplete tab-complete
-inoremap <expr><tab> pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><s-tab> pumvisible() ? "\<C-p>" : "\<TAB>"
-autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-
-" ### ultisnips ### 
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-n>"
-let g:UltiSnipsJumpBackwardTrigger="<c-p>"
-let g:UltiSnipsEditSplit="vertical"
-
-" ### LaTeX ###
-let g:tex_flavor = 'latex'
-let g:tex_conceal = ''
-let g:vimtex_fold_manual = 1
-let g:vimtex_compiler_progname = 'pdflatex'
-
-" ### markdown ###
-let g:vim_markdown_folding_disabled = 0
-let g:vim_markdown_folding_style_pythonic = 1
-let g:vim_markdown_conceal = 0
-let g:tex_conceal = ""
-let g:vim_markdown_math = 1
-let g:vim_markdown_conceal_code_blocks = 0
-let g:vim_markdown_math = 1
-let g:vim_markdown_frontmatter = 1
-let g:vim_markdown_strikethrough = 1
-let g:vim_markdown_new_list_item_indent = 2
-let g:pandoc#folding#fdc = 0
-let g:pandoc#formatting#textwidth = 70
-let g:pandoc#formatting#mode = "hA"
-let g:pandoc#formatting#smart_autoformat_on_cursormoved = 1
-autocmd Filetype markdown set textwidth=70
-
-" ### Bullets.vim ###
-" Bullets.vim
-let g:bullets_enabled_file_types = [
-    \ 'markdown',
-    \ 'text',
-    \ 'gitcommit',
-    \ 'scratch'
-    \]
-
-" ### Golang ####
-let g:go_fmt_command = "goimports"
-let g:go_highlight_types = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_functions = 1
-let g:go_highlight_function_calls = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_extra_types = 1
-let g:go_highlight_build_constraints = 1
-let g:go_highlight_generate_tags = 1
-let g:go_completion_enabled = 1
-let g:go_test_show_name = 1
-let g:go_info_mode = "guru"
-let g:go_list_height = 10
-let g:go_diagnostics_enabled = 1
-let g:go_template_autocreate = 0
-let g:go_auto_type_info = 1
-let g:go_auto_sameids = 0
-
-
-" ### C++ highlighting ###
-let g:cpp_class_scope_highlight = 1
-let g:cpp_member_variable_highlight = 1
-let g:cpp_class_decl_highlight = 1
-let g:cpp_posix_standard = 1
-let g:cpp_experimental_template_highlight = 1
-let g:cpp_concepts_highlight = 1
-let g:cpp_no_function_highlight = 1
-let c_no_curly_error=1
-
-" ### ALE ###
-let g:ale_completion_enabled = 0
-let g:ale_completion_autoimport = 0
-let g:ale_set_balloons = 1
-let g:ale_set_preview= 1
-let g:ale_hover_to_preview=1
-let g:ale_linters = {}
-let g:ale_linters.bash = ['shellcheck']
-let g:ale_linters.c = ['clang']
-let g:ale_linters.cpp = ['clang']
-let g:ale_linters.haskell = ['hslint']
-let g:ale_linters.latex = ['texlab']
-let g:ale_linters.markdown = ['prettier']
-let g:ale_linters.python = ['black', 'flake8']
-" no go linters, instead just vim-go
-let g:ale_fixers = {}
-let g:ale_fixers.bash = ['shfmt']
-let g:ale_fixers.haskell = ['stylish-haskell']
-let g:ale_fixers.python = ['black']
-let g:ale_fixers.cpp = ['clang-format']
-let g:ale_fixers.c = ['clang-format']
-let g:ale_fix_on_save = 1
-let g:ale_sign_column_always = 1
+call deoplete#custom#source('LanguageClient',
+            \ 'min_pattern_length',
+            \ 2)
