@@ -6,6 +6,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'vim-airline/vim-airline-themes'
     Plug 'ryanoasis/vim-devicons'
     Plug 'luochen1990/rainbow'
+    Plug 'Yggdroot/indentLine'
 
     " git integration
     Plug 'airblade/vim-gitgutter'
@@ -24,6 +25,7 @@ call plug#begin('~/.config/nvim/plugged')
 
     " colours/highlighting
     Plug 'norcalli/nvim-colorizer.lua'
+    Plug 'octol/vim-cpp-enhanced-highlight'
 
     " quality of textediting
     Plug 'tpope/vim-surround'
@@ -39,7 +41,6 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'SirVer/ultisnips'
     Plug 'honza/vim-snippets'
     Plug 'michaeljsmith/vim-indent-object'
-    Plug 'AndrewRadev/splitjoin.vim'
     Plug 'metakirby5/codi.vim'
     Plug 'sbdchd/neoformat'
 
@@ -61,9 +62,50 @@ call plug#begin('~/.config/nvim/plugged')
 call plug#end()
 
 " ### shortcuts ###
-nmap <F1> :NERDTreeToggle<CR>
-nmap <F2> :Neoformat<CR>
-nmap <F8> :TagbarToggle<CR>
+map <F1> :NERDTreeToggle<CR>
+map <F2> :Neoformat<CR>
+map <F3> :Vifm<CR>
+map <F4> :copen<CR>
+map <F5> :make<CR>
+map <F6> :FZF<CR>
+map <F7> :call TermToggle(12)<CR>
+map <F8> :TagbarToggle<CR>
+
+" make normal mode Fkey shortcuts work in insert mode
+imap <F1> <C-\><C-N> :NERDTreeToggle<CR>
+imap <F2> <C-\><C-N> :Neoformat<CR>
+imap <F3> <C-\><C-N> :Vifm<CR>
+imap <F4> <C-\><C-N> :copen<CR>
+imap <F5> <C-\><C-N> :make<CR>
+imap <F6> <C-\><C-N> :FZF<CR>
+imap <F7> <C-\><C-N> :call TermToggle(12)<CR>
+imap <F8> <C-\><C-N> :TagbarToggle<CR>
+
+" Terminal Function
+let g:term_buf = 0
+let g:term_win = 0
+function! TermToggle(height)
+    if win_gotoid(g:term_win)
+        hide
+    else
+        botright new
+        exec "resize " . a:height
+        try
+            exec "buffer " . g:term_buf
+        catch
+            call termopen($SHELL, {"detach": 0})
+            let g:term_buf = bufnr("")
+            set nonumber
+            set norelativenumber
+            set signcolumn=no
+        endtry
+        startinsert!
+        let g:term_win = win_getid()
+    endif
+endfunction
+" Terminal go back to normal mode
+tnoremap <Esc> <C-\><C-n>
+tnoremap :q! <C-\><C-n>:q!<CR>
 
 let mapleader=" "
 
@@ -119,8 +161,6 @@ set updatetime=50
 autocmd TermOpen * startinsert
 
 " ### spellcheck ###
-
-" " ### spellchecking ###
 autocmd FileType text,markdown,tex setlocal spell
 function! FzfSpellSink(word)
   exe 'normal! "_ciw'.a:word
@@ -161,6 +201,11 @@ let g:airline_theme = "base16_vim"
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#ale#enabled = 1
+
+" ### IndentLine ###
+let g:indentLine_char_list = ['┊', '┆', '¦', '|']
+let g:indentLint_showFirstIndentLevel = 1
+let g:indentLine_setColors = 1
 
 " ### LaTeX ###
 let g:tex_flavor = 'latex'
