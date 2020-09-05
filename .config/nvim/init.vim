@@ -51,7 +51,8 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'vim-pandoc/vim-pandoc'
     Plug 'vim-pandoc/vim-pandoc-syntax'
 
-    " Deoplete
+    Plug 'sbdchd/vim-run'
+
     Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
 
     Plug 'autozimu/LanguageClient-neovim', {
@@ -61,12 +62,21 @@ call plug#begin('~/.config/nvim/plugged')
 
 call plug#end()
 
+" define makeprg if Makefile is not present
+if !file_readable('Makefile') && !file_readable('makefile')
+    autocmd Filetype cpp setlocal makeprg=clang++\ -Wall\ -Werror\ -Wpedantic\ %
+    autocmd Filetype c setlocal makeprg=clang\ -Wall\ -Werror\ -Wpedantic\ %
+    autocmd Filetype go setlocal makeprg=go\ build\ %
+    autocmd Filetype haskell setlocal makeprg=ghc\ %
+endif
+
 " ### shortcuts ###
 map <F1> :NERDTreeToggle<CR>
 map <F2> :Neoformat<CR>
 map <F3> :Vifm<CR>
 map <F4> :copen<CR>
-map <F5> :make<CR>
+autocmd Filetype python,sh,go map <F5> :Run<CR>
+autocmd Filetype cpp,c,haskell map <F5> :make<CR>
 map <F6> :FZF<CR>
 map <F7> :call TermToggle(12)<CR>
 map <F8> :TagbarToggle<CR>
@@ -76,7 +86,8 @@ imap <F1> <C-\><C-N> :NERDTreeToggle<CR>
 imap <F2> <C-\><C-N> :Neoformat<CR>
 imap <F3> <C-\><C-N> :Vifm<CR>
 imap <F4> <C-\><C-N> :copen<CR>
-imap <F5> <C-\><C-N> :make<CR>
+autocmd Filetype python,sh,go imap <F5> :Run<CR>
+autocmd Filetype cpp,c,haskell imap <F5> :make<CR>
 imap <F6> <C-\><C-N> :FZF<CR>
 imap <F7> <C-\><C-N> :call TermToggle(12)<CR>
 imap <F8> <C-\><C-N> :TagbarToggle<CR>
