@@ -2,6 +2,7 @@ call plug#begin('~/.config/nvim/plugged')
 
     " For appearance
     Plug 'morhetz/gruvbox'
+    Plug 'srcery-colors/srcery-vim'
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     Plug 'ryanoasis/vim-devicons'
@@ -48,8 +49,8 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'lervag/vimtex'
     " Markdown
     Plug 'plasticboy/vim-markdown'
-    Plug 'vim-pandoc/vim-pandoc'
-    Plug 'vim-pandoc/vim-pandoc-syntax'
+    " Plug 'vim-pandoc/vim-pandoc'
+    " Plug 'vim-pandoc/vim-pandoc-syntax'
 
     Plug 'sbdchd/vim-run'
 
@@ -68,7 +69,12 @@ if !file_readable('Makefile') && !file_readable('makefile')
     autocmd Filetype c setlocal makeprg=clang\ -Wall\ -Werror\ -Wpedantic\ %
     autocmd Filetype go setlocal makeprg=go\ build\ %
     autocmd Filetype haskell setlocal makeprg=ghc\ %
+    autocmd Filetype tex setlocal makeprg=pdflatex\ %
 endif
+
+" ### codi ###
+let g:codi#rightsplit = 1
+let g:codi#rightalign = 1
 
 " ### shortcuts ###
 map <F1> :NERDTreeToggle<CR>
@@ -87,7 +93,7 @@ imap <F2> <C-\><C-N> :Neoformat<CR>
 imap <F3> <C-\><C-N> :Vifm<CR>
 imap <F4> <C-\><C-N> :copen<CR>
 autocmd Filetype python,sh,go imap <F5> :Run<CR>
-autocmd Filetype cpp,c,haskell imap <F5> :make<CR>
+autocmd Filetype tex,cpp,c,haskell imap <F5> :make<CR>
 imap <F6> <C-\><C-N> :FZF<CR>
 imap <F7> <C-\><C-N> :call TermToggle(12)<CR>
 imap <F8> <C-\><C-N> :TagbarToggle<CR>
@@ -123,7 +129,9 @@ let mapleader=" "
 nnoremap <leader>s :noh<CR>
 nnoremap <leader>rt :RainbowToggle<CR>
 nnoremap <leader>vf :Vifm<CR>
+nnoremap <leader>bd :bd<CR>
 
+nnoremap <leader>e :copen<CR>
 nnoremap <leader>n :cnext<CR>
 nnoremap <leader>p :cprevious<CR>
 nnoremap <leader>a :cclose<CR>
@@ -206,9 +214,18 @@ let g:gruvbox_improved_warnings = 1
 let g:gruvbox_invert_selection = 0
 let g:gruvbox_sign_column = 'bg0'
 colo gruvbox
+
+let g:srcery_italic = 1
+let g:srcery_bold = 1
+let g:srcery_underline = 1
+let g:srcery_undercurl = 1
+let g:srcery_inverse = 0
+" colo srcery
+
 let g:rainbow_active = 0
 
 let g:airline_theme = "base16_vim"
+" let g:airline_theme = "srcery"
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#ale#enabled = 1
@@ -239,6 +256,7 @@ let g:pandoc#folding#fdc = 0
 let g:pandoc#formatting#textwidth = 70
 let g:pandoc#formatting#mode = "hA"
 let g:pandoc#formatting#smart_autoformat_on_cursormoved = 1
+let g:pandoc#syntax#conceal#use = 0
 autocmd Filetype markdown set textwidth=70
 
 " ### LSP ###
@@ -247,11 +265,12 @@ set hidden
 let g:LanguageClient_serverCommands = {
     \ 'python' : ['/usr/bin/pyls'],
     \ 'go' : ['/home/piotr/go/bin/gopls'],
-    \ 'cpp' : ['/usr/bin/ccls'],
-    \ 'c' : ['/usr/bin/ccls'],
+    \ 'cpp' : ['/usr/bin/ccls', '--log-file=/tmp/cc.log'],
+    \ 'c' : ['/usr/bin/ccls', '--log-file=/tmp/cc.log'],
     \ 'sh' : ['/usr/bin/bash-language-server','start'],
     \ 'haskell': ['/usr/bin/haskell-language-server-wrapper', '--lsp'],
     \ 'vim' : ['/usr/bin/vim-language-server'],
+    \ 'tex' : ['/usr/bin/texlab'],
     \ }
 
 function SetLSPShortcuts()
@@ -268,7 +287,7 @@ function SetLSPShortcuts()
 endfunction()
 augroup LSP
   autocmd!
-  autocmd FileType python,cpp,c,go,sh,haskell,vim call SetLSPShortcuts()
+  autocmd FileType python,cpp,c,go,sh,haskell,vim,tex call SetLSPShortcuts()
 augroup END
 
 " ### Deoplete ###
