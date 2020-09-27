@@ -167,6 +167,12 @@ set tabstop=4
 " splits
 set splitright splitbelow 
 
+"Open file at same line last closed
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
+  \| exe "normal! g'\"" | endif
+endif
+
 " ### misc ###
 set number relativenumber
 set signcolumn=yes
@@ -265,12 +271,13 @@ set hidden
 let g:LanguageClient_serverCommands = {
     \ 'python' : ['/usr/bin/pyls'],
     \ 'go' : ['/home/piotr/go/bin/gopls'],
-    \ 'cpp' : ['/usr/bin/ccls', '--log-file=/tmp/cc.log'],
-    \ 'c' : ['/usr/bin/ccls', '--log-file=/tmp/cc.log'],
+    \ 'cpp' : ['/usr/bin/clangd'],
+    \ 'c' : ['/usr/bin/clangd'],
     \ 'sh' : ['/usr/bin/bash-language-server','start'],
     \ 'haskell': ['/usr/bin/haskell-language-server-wrapper', '--lsp'],
     \ 'vim' : ['/usr/bin/vim-language-server'],
     \ 'tex' : ['/usr/bin/texlab'],
+    \ 'javascript' : ['/usr/bin/javascript-typescript-langserver']
     \ }
 
 function SetLSPShortcuts()
@@ -287,7 +294,7 @@ function SetLSPShortcuts()
 endfunction()
 augroup LSP
   autocmd!
-  autocmd FileType python,cpp,c,go,sh,haskell,vim,tex call SetLSPShortcuts()
+  autocmd FileType python,cpp,c,go,sh,haskell,vim,tex,javascript,ts call SetLSPShortcuts()
 augroup END
 
 " ### Deoplete ###
