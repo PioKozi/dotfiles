@@ -10,12 +10,12 @@ brightnessctl set $1
 maxbrightness="$(brightnessctl max)"
 gotbrightness="$(brightnessctl get)"
 brightness="$(expr 100 \* $gotbrightness / $maxbrightness)"
-echo $maxbrightness
-echo $gotbrightness
 
 # Display the brightness
+makoctl dismiss
 dunstify -a "changeBrightness" -u low -i audio-volume-high -r "$msgId" \
 "Brightness: ${brightness}%"
+# notify-send "Brightness: $brightness%"
 
 # Play the volume changed sound
 canberra-gtk-play -i audio-volume-change

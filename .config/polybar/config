@@ -1,183 +1,78 @@
 [colours]
-
-background      = #282828
-grey            = #a89984
-foreground      = #ebdbb2
-blue            = #458588
-green           = #98971a
-orange          = #d65d0e
-purple          = #b16286
-red             = #cc241d
-yellow          = #d79921
+background = #1d2021
+foreground = #ebdbb2
+red = #cc241d
+orange = #d65d0e
 
 [bar/top]
+bottom = false
+fixed-center = true
+offset-y = 0
+width = 100%
+height = 20
+radius = 0
 
-bottom          = false
-fixed-center    = true
-offset-y        = 0
+background = ${colours.background}
+foreground = ${colours.foreground}
+border-size = 0
 
-width           = 100%
-height          = 20
-radius          = 0
+font-0 = "Jetbrains Mono Nerd Font:size=10;3"
+line-size = 1
+padding = 1
 
+modules-left = ewhm title
+modules-right = date battery memory cpu
 
-background      = ${colours.background}
-foreground      = ${colours.foreground}
-
-border-size     = 0
-
-font-0          = "Jetbrains Mono Nerd Font:size=10;3"
-line-size       = 1
-
-padding         = 1
-
-modules-left    = archlogo bspwm
-modules-center  = date
-modules-right   = battery backlight memory cpu
-
-module-margin-left   = 1
-module-margin-right  = 1
-
-locale          = en_GB.UTF-8
-
-wm-name         = bspwm
-override-redirect = false
-wm-restack      = bspwm
+module-margin-left = 1
+module-margin-right = 1
+locale = en_GB.UTF-8
 
 [settings]
-
 pseudo-transparency = false
 
-[module/bspwm]
-
-type            = internal/bspwm
-pin-workspaces  = false
-inline-mode     = false
-enable-click    = true
-enable-scroll   = false
-reverse-scroll  = false
-fuzzy-match     = false
-
-ws-icon-0 = I;
-ws-icon-1 = II;
-ws-icon-2 = III;
-ws-icon-3 = IV;
-ws-icon-4 = V;
-ws-icon-5 = VI;
-ws-icon-6 = VII;
-ws-icon-7 = VIII;
-ws-icon-8 = IX;
-ws-icon-9 = X;
-
-
-label-focused = %icon%
-label-focused-foreground = ${colours.purple}
-label-focused-underline= ${colours.purple}
-label-focused-padding = 1
-
-label-occupied = %icon%
-label-occupied-padding = 1
-label-occupied-foreground = ${colours.blue}
-
-label-urgent = %icon%!
-label-urgent-foreground = ${colours.red}
-label-urgent-padding = 1
-
-label-empty = %icon%
-label-empty-foreground = ${colours.foreground}
+[module/ewhm]
+type = internal/xworkspaces
+pin-workspaces = true
+enable-click = true
+enable-scroll = false
+format = <label-state>
+label-active = %name%
+label-active-foreground = ${colours.red}
+label-active-background = ${colours.background}
+label-active-underline = ${colours.red}
+label-active-padding = 2
+label-empty = %name%
 label-empty-padding = 1
 
-[module/date]
+[module/title]
+type = internal/xwindow
+format-foreground = ${colours.red}
+label-maxline = 80
+label-underline = ${colours.red}
 
+[module/date]
 type = internal/date
 interval = 1.0
-date =   %a %d %b
-time = %H:%M:%S 
-
-format-background = ${colours.background}
-format-foreground = ${colours.foreground}
-
-label = "   %time% %date%"
+date = %a %d.%m.%y
+time = %H:%M:%S
+label = %time% | %date%
 
 [module/battery]
-
 type = internal/battery
+full-at = 98
 battery = BAT0
 adapter = ACAD
 poll-interval = 5
-
-format-charging = "<ramp-capacity> <label-charging>"
-label-charging = ⚡%percentage%%
-label-charging-foreground = ${colours.orange}
-
-format-discharging = "<ramp-capacity> <label-discharging>"
-label-discharging = %percentage%%
-label-discharging-foreground = ${colours.orange}
-
-ramp-capacity-foreground = ${colours.orange}
-ramp-capacity-0 = 
-ramp-capacity-1 = 
-ramp-capacity-2 = 
-ramp-capacity-3 = 
-ramp-capacity-4 = 
-
-[module/backlight]
-
-type = internal/xbacklight
-card = intel_backlight
-enable-scroll = true
-
-format = "<ramp> <label>"
-
-label = %percentage%%
-label-foreground = ${colours.yellow}
-ramp-foreground = ${colours.yellow}
-
-ramp-0 = 
-ramp-1 =  
-ramp-2 = 
-ramp-3 = 
-ramp-4 = 
-
-[module/volume]
-
-type = internal/pulseaudio
-sink = alsa_output.pci-0000_00_1b.0.analog-stereo
-interval = 5
-
-format-volume = "<ramp-volume> <label-volume>"
-ramp-volume-foreground = ${colours.blue}
-label-volume-foreground = ${colours.blue}
-
-label-volume = %percentage%%
-
-label-muted   = ﱝ
-ramp-volume-0 = 奄
-ramp-volume-1 = 奔
-ramp-volume-2 = 墳
+time-format = %Hh%Mm
+label-discharging = | BAT: -%percentage%% %time%
+label-charging = | BAT: +%percentage%% %time%
 
 [module/memory]
-
 type = internal/memory
 interval = 3
-format = "<label>"
-label =  %percentage_used%%
-label-foreground = ${colours.green}
+label = | RAM: %percentage_used%%
 
 [module/cpu]
-
 type = internal/cpu
-format = "<label>"
-label = ﬙ %percentage%%
-label-foreground = ${colours.purple}
-
-[module/archlogo]
-
-type = custom/text
-content = 
-
-content-foreground = ${colours.blue}
-content-padding = 2
-
-click-left = rofi -theme dracula -show run
-click-right = rofi -theme dracula -show window
+interval = 0.5
+label = | CPU: %percentage%%
